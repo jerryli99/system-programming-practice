@@ -1,0 +1,60 @@
+1. If i is a variable and p points to i, which of the following expressions are
+aliases for i?
+
+(a) *p      (c) *&p     (e) *i      (g) *&i
+(b) &p      (d) &*p     (f) &i      (h) &*i
+
+Answer: a and g
+
+2. If i is an int variable and p and q are pointers to int, which of the following
+assignments are legal?
+
+(a) p = i;      (d) p = &q      (g) p = *q
+(b) *p = &i;    (e) p = *&q     (h) *p = q;
+(c) &p = q;     (f) p = q;      (i) *p = *q;
+
+Answer: e, f, i
+
+3. correct errors of this code:
+void avg_sum(double a[], int n, double *avg, double *sum)
+{
+    int i;
+
+    sum = 0.0;
+    for (i = 0; i < n; i++)
+        sum += a[i];
+    avg = sum / n;
+}
+
+----
+Answer:
+void avg_sum(double a[], int n, double *avg, double *sum)
+{
+    int i;
+
+    *sum = 0.0;
+    for (i = 0; i < n; i++)
+        *sum += a[i];
+    *avg = *sum / n;
+}
+
+4. see b1_ex4.c
+
+5. see b1_ex5.c
+
+6. see b1_ex6.c
+
+7. skipped because it is too tedious to do months, days, years conversion stuff etc...
+
+8. see b1_ex8.c
+
+---------------------------------------------------------
+Projects
+1. see b1_proj1.c
+
+2. see b1_proj2.c
+
+3. see b1_proj3.c
+
+4. see b1_proj4.c
+
