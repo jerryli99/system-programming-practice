@@ -34,6 +34,11 @@ void find_closest_flight(int desired_time, int *departure_time, int *arrival_tim
         min_diff = -min_diff;
     }
 
+///No magic numbers.......
+///No magic numbers 
+///variables (including the i in the loop) should all be 4 letters....
+
+
     for (int i = 1; i < num_flights; i++) {
         int departure_time_minutes = departure_hours[i] * 60 + departure_minutes[i];
         int diff = departure_time_minutes - desired_time;
