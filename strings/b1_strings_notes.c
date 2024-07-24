@@ -40,11 +40,11 @@ int main() {
 
     char data5[] = "June 18"; //the compiler will set 8 chars for data5 ('\0' included)
 
-    char str1[20];
-    char str2[20] = "June 19th, 2024";
-    strncpy(str1, str2, 20 - 1);
-    str1[20 - 1] = '\0';
-    printf("%s\n", str1);
+    // char str1[20];
+    // char str2[20] = "June 19th, 2024";
+    // strncpy(str1, str2, 20 - 1);
+    // str1[20 - 1] = '\0';
+    // printf("%s\n", str1);
 
     return 0;
 }

@@ -62,3 +62,128 @@ and stops at the first non-digit character.
 
 see b1_strings_ex4.c
 
+--------------------------------------------------------------
+5. see b1_strings_ex5.c
+
+--------------------------------------------------------------
+6. see b1_strings_ex6.c
+
+--------------------------------------------------------------
+7. Suppose that str is an array of characters. Which one of the following statements is not
+equivalent to the other three?
+
+(a) *str = 0;
+(b) str[0] = '\0'
+(c) strcpy(str, "");
+(d) strcat(str, "");
+
+(d) is not quivalent to the other three because it adds the null terminator at the end instead of the the beginning.
+
+---------------------------------------------------------------
+8. What will be the value of the string str after the following statements have been executed?
+
+strcpy(str, "tire-bouchon");
+Answer: tire-bouchon\0
+
+strcpy(&str[4], "d-or-wi");
+Answer: tired-or-wi\0
+
+strcat(str, "red?");
+Answer: tired-or-wired?\0
+
+--------------------------------------------------------------
+9. What will be the value of the string s1 after the following statements have been executed?
+
+strcpy(s1, "computer");
+strcpy(s2, "science");
+if (strcmp(s1, s2) < 0)
+    strcat(s1, s2); -----> computerscience\0
+else
+    strcat(s2, s1);
+
+s1[strlen(s1)-6] = '\0'; --> strlen(s1) = 15 - 6 = 9 s1 will now be "computers\0" after s1[9] changed to '\0'.
+
+--------------------------------------------------------------
+10. The following function supposedly creates an identical copy of a string. What's wrong with
+the function?
+
+char *duplicate(const char *p)
+{
+    char *q;
+
+    strcpy(q, p);
+    return q;
+}
+
+Answer: q cannot be accessed once the function returns since it is a local variable. 
+If we do that, in b1_strings_ex10.c we get segmentation fault.
+--------------------------------------------------------------
+11. see b1_strings_ex11.c
+
+12. see b1_strings_ex12.c
+
+13. see b1_strings_ex13.c
+
+14. see b1_strings_ex14.c
+
+--------------------------------------------------------------
+15. Let f be the following function:
+
+int f(char *s, char *t)
+{
+    char *p1, *p2;
+
+    for (p1 = s; *p1; p1++) {
+        for (p2 = t; *p2; p2++)
+            if (*p1 == *p2) break;
+        if (*p2 == '\0') break;
+    }
+    return p1 - s;
+}
+
+(a) What is the value of f("abcd", "babc")? 
+(b) What is the value of f("abcd", "bcd")? 
+(c) In general, what value does f return when passed two strings s and t?
+
+Answer: 
+(a) 3
+(b) 0
+(c) Returns the difference between the address of the pointer of the character in s that doesn't have
+a matching character in t and the address of the first character in s.
+
+--------------------------------------------------------------
+16. see b1_strings_ex16.c
+
+17. see b1_strings_ex17.c
+
+18. see b1_strings_ex18.c
+
+--------------------------------------------------------------
+
+==============================================================
+Projects:
+1. see b1_strings_proj1.c
+
+2a. see b1_strings_proj2a.c
+
+2b. see b1_strings_proj2b.c
+
+3. see b1_strings_proj3.c
+
+4. see b1_strings_proj4.c
+
+5. see b1_strings_proj5.c
+
+6. see b1_strings_proj6.c
+
+7. see b1_strings_proj7.c
+
+8. see b1_strings_proj8.c
+
+9. see b1_strings_proj9.c
+
+10. see b1_strings_proj10.c
+
+11. see b1_strings_proj11.c
+
+12. see b1_strings_proj12.c
