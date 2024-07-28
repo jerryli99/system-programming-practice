@@ -1,0 +1,22 @@
+Exercises:
+
+1. In the following declarations, the x and y structures have members named x and y:
+
+struct { int x, y; } x;
+struct { int x, y; } y;
+
+Are these declarations legal on an individual basis? Could both declarations appear as
+shown in a program?
+
+These declarations are legal on an individual basis, and both declarations can appear in a program.
+
+-----------------------------------------------------------------------------
+2. see b1_structs_ex2.c
+
+3 & 4 see b1_structs_ex3.c
+
+5. see b1_structs_ex5.c, b1_structs_ex5_test.c, b1_structs_ex5.h
+
+6. skipped because too tedious
+
+7. 

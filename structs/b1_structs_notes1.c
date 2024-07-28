@@ -1,5 +1,10 @@
 #include <stdio.h>
 
+/**
+ * This is bad style for writing structs. Could have used typedef here.
+ * I will leave the "bad style code" here for future reminder.
+ */
+
 #define NAME_LEN 6
 
 struct {
