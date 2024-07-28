@@ -1,5 +1,5 @@
-#ifndef DATE_H
-#define DATE_H
+#ifndef B1_STRUCTS_EX5_H
+#define b1_STRUCTS_EX5_H
 
 #include <stdbool.h>
 
@@ -37,4 +37,4 @@ int day_of_year(const Date date);
 int compare_dates(const Date date1, const Date date2);
 bool is_leap_year(const int year);
 
-#endif // DATE_H
+#endif
