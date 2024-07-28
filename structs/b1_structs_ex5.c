@@ -2,7 +2,7 @@
 #include "b1_structs_ex5.h"
 
 // Definition of the external array
-const int month_days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int MONTH_DAYS[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 /**
  * @brief Computes the total days elapsed since January 1.
@@ -15,7 +15,7 @@ int day_of_year(const Date date) {
     int month, total_days = date.day;
 
     for (month = 0; month < date.month - 1; month++) {
-        total_days = total_days + month_days[month];
+        total_days = total_days + MONTH_DAYS[month];
 
         if (month == FEBRUARY - 1 && is_leap_year(date.year) == true) { // Adjust for 0-index
             total_days++;

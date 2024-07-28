@@ -31,7 +31,7 @@ enum month {
     DECEMBER
 };
 
-extern const int month_days[12]; // Declaration of the external array
+extern const int MONTH_DAYS[12]; // Declaration of the external array
 
 int day_of_year(const Date date);
 int compare_dates(const Date date1, const Date date2);
