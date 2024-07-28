@@ -1,5 +1,5 @@
 #ifndef B1_STRUCTS_EX5_H
-#define b1_STRUCTS_EX5_H
+#define B1_STRUCTS_EX5_H
 
 #include <stdbool.h>
 
