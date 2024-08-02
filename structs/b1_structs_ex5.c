@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "b1_structs_ex5.h"
 
 // Definition of the external array
@@ -17,7 +16,7 @@ int day_of_year(const Date date) {
     for (month = 0; month < date.month - 1; month++) {
         total_days = total_days + MONTH_DAYS[month];
 
-        if (month == FEBRUARY - 1 && is_leap_year(date.year) == true) { // Adjust for 0-index
+        if ((month == FEBRUARY - 1) && (is_leap_year(date.year) == true)) { // Adjust for 0-index
             total_days++;
         }
     }
@@ -69,5 +68,21 @@ int compare_dates(const Date date1, const Date date2) {
  *  
  */
 bool is_leap_year(const int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    // Check if the year is divisible by 400
+    if (year % 400 == 0) {
+        return true;
+    }
+
+    // Check if the year is divisible by 100
+    if (year % 100 == 0) {
+        return false;
+    }
+
+    // Check if the year is divisible by 4
+    if (year % 4 == 0) {
+        return true;
+    }
+
+    // If none of the above conditions are met, it's not a leap year
+    return false;
 }

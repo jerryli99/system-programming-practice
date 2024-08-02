@@ -1,11 +1,9 @@
 #include <stdio.h>
 
-typedef struct number Number;
-
-struct number {
+typedef struct number_ {
     double real;
     double imaginary;
-};
+} Number;
 
 int main() {
 

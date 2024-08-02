@@ -7,16 +7,13 @@
 #define SAME 0
 #define LATER 1
 
-typedef struct date Date;
-typedef enum month Month;
-
-struct date {
+typedef struct date_ {
     int month;
     int day;
     int year;
-};
+} Date;
 
-enum month {
+enum month_ {
     JANUARY = 1,
     FEBRUARY,
     MARCH,
@@ -29,7 +26,7 @@ enum month {
     OCTOBER,
     NOVEMBER,
     DECEMBER
-};
+} Month;
 
 extern const int MONTH_DAYS[12]; // Declaration of the external array
 

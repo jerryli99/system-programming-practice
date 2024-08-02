@@ -1,22 +1,20 @@
 #include <stdio.h>
 
-typedef struct complex Complex;
-
-struct complex {
+typedef struct complex_ {
     double real;
     double imaginary;
-};
+} Complex;
 
-struct complex make_complex(double real, double imaginary) {
-    struct complex new_complex;
+Complex make_complex(const double real, const double imaginary) {
+    Complex new_complex;
     new_complex.real = real;
     new_complex.imaginary = imaginary;
 
     return new_complex;
 }
 
-struct complex add_complex(struct complex struct1, struct complex struct2) {
-    struct complex new_complex;
+Complex add_complex(const Complex struct1, const Complex struct2) {
+    Complex new_complex;
     new_complex.real = struct1.real + struct2.real;
     new_complex.imaginary = struct1.imaginary + struct2.imaginary;
 

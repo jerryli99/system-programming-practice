@@ -19,4 +19,149 @@ These declarations are legal on an individual basis, and both declarations can a
 
 6. skipped because too tedious
 
-7. 
+7. see b1_structs_ex7.c, b1_structs_ex7_test.c, b1_structs_ex7.h
+
+8. see b1_structs_ex8.c
+
+9. see b1_structs_ex9.c, b1_structs_ex9_test.c, b1_structs_ex9.h
+
+10. see b1_structs_ex10.c
+
+-------------------------------------------------------------------
+11. Suppose that s is the following structure:
+
+struct {
+    double a;
+    union {
+        char b[4];
+        double c;
+        int d;
+    } e;
+    char f[4];
+} s;
+
+If char values occupy one byte, int values occupy four bytes, and double values
+occupy eight bytes, how much space will a C compiler allocate for s? (Assume
+that the compiler leaves no "holes" between members.)
+
+Answer: 8+8+4 = 20 bytes
+
+------------------------------------------------------------
+12. Suppose that u is the following union:
+
+union {
+    double a;
+    struct {
+        char b[4];
+        double c;
+        int d;
+    } e;
+    char f[4];
+} u;
+
+If char values occupy one byte, int values occupy four bytes, and double
+values occupy eight bytes, how much space will a C compiler allocate for u?
+(Assume that the compiler leaves no "holes" between members.)
+
+Answer: since e has largest size (4+8+4=16) than a and f, 16 bytes will be allocated for u.
+-------------------------------------------------------------------------
+13. Suppose that s is the following structure (point is a structure tag declare in
+exercise 10):
+
+struct shape {
+    int shape_kind;
+    struct point center;
+    union {
+        struct {
+            int height, width;
+        } rectangle;
+        struct {
+            int radius;
+        } circle;
+    } u;
+} s;
+
+If the value of shape_kind is RECTANGLE, the height and width members store the
+dimensions of a rectangle. If the value of shape_kind is CIRCLE, the radius
+member stores the radius of a circle. Indicate which of the following 
+statements are legal, and show how to repair the ones that aren't:
+
+(a) s.shape_kind = RECTANGLE;
+(b) s.center.x = 10;
+(c) s.height = 25;
+(d) s.u.rectangle.width = 8;
+(e) s.u.circle = 5;
+(f) s.u.radius = 5;
+
+Answer:
+(a) legal
+(b) legal
+(c) wrong. Fix: s.u.rectangle.height = 25;
+(d) legal
+(e) wrong. Fix: s.u.circle.radius = 5; or s.shape_kind = CIRCLE;
+(f) wrong. Fix: s.u.circle.radius = 5;
+
+-------------------------------------------------------------------------
+15. 
+(a) Declare a tag for an enumeration whose values represent the seven days of the week.
+(b) Use typedef to define a name for the enumeration of part (a)
+
+Answer: 
+(a) enum day {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
+(b) typedef enum {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY} Day;
+
+-------------------------------------------------------------------------
+16. Which of the following statements about enumeration constants are true?
+
+(a) An enumeration constants may represent any integer specified by the programmer. 
+
+(b) Enumeration constants have exactly the same properties as constants
+    created using #define. 
+
+(c) Enumeration constants have the values 0, 1, 2... by default. 
+
+(d) All constants in an enumeration must have different values. 
+    
+(e) Enumeration constants may be used as integers in expressions. 
+
+Answer: 
+(a) true
+(b) false
+(c) true
+(d) false
+(e) true
+
+-------------------------------------------------------------------------
+17.Suppose that b and i are declared as follows:
+
+enum {FALSE, TRUE} b;
+int i;
+
+Which of the following statements are legal? Which ones are "safe" (always yield
+a meaningful result)?
+
+(a) b = FALSE;      
+(b) b = i;              
+(c) b++;                
+(d) i = b;              
+(e) i = 2 * b + 1;
+
+Answer:
+(a) legal, safe
+(b) legal, unsafe i.e. if i = -1
+(c) legal, unsafe i.e. b can exceed the range
+(d) legal, safe
+(e) legal, safe
+
+---------------------------------------------------------------------
+17 - 22 exercise skipped
+---------------------------------------------------------------------
+
+Projects
+I skipped 1,2,3,5,6
+
+4. see b1_structs_proj4.c
+
+--------------------------------------------------------------------
+The interesting stuff is in chapter 17.
+
