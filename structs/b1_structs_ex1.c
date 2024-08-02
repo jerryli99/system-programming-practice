@@ -12,5 +12,5 @@ int main() {
     y.y = 40;
 
     printf("%d %d %d %d\n", x.x, x.y, y.x, y.y);
-    return 0;
+    return (0);
 }

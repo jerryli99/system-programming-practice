@@ -47,7 +47,7 @@ char *my_str_concat(const char *str1, const char *str2) {
     strcpy(result, str1);
     strcat(result, str2);
 
-    return result;
+    return (result);
 }
 
 

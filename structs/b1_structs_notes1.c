@@ -52,7 +52,7 @@ int main(void) {
     printf("Address of on_hand: %p\n", (void*)&part2.on_hand);
     print_byte_addresses_and_contents(&part2.on_hand, sizeof(part2.on_hand));
 
-    return 0;
+    return (0);
 }
 
 

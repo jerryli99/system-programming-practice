@@ -18,14 +18,14 @@
  */
 int restrict_color_bounds(const int color_val, const int c_min, const int c_max) {
     if (color_val < c_min)  {
-        return c_min;
+        return (c_min);
     }
 
     if (color_val > c_max) {
-        return c_max;
+        return (c_max);
     }
 
-    return color_val;
+    return (color_val);
 }
 
 /**
@@ -46,7 +46,7 @@ Color make_color(const int red, const int green, const int blue) {
     new_color.red = restrict_color_bounds(red, MIN_COLOR_VAL, MAX_COLOR_VAL);
     new_color.green = restrict_color_bounds(green, MIN_COLOR_VAL, MAX_COLOR_VAL);
     new_color.blue = restrict_color_bounds(blue, MIN_COLOR_VAL, MAX_COLOR_VAL);
-    return new_color;
+    return (new_color);
 }
 
 /**
@@ -57,7 +57,7 @@ Color make_color(const int red, const int green, const int blue) {
  * @return Returns the member red of integer type from the Color struct.
  */
 int getRed(const Color c) {
-    return c.red;
+    return (c.red);
 }
 
 /**
@@ -71,18 +71,18 @@ int getRed(const Color c) {
  */
 bool equal_color(const Color color1, const Color color2) {
     if (color1.red != color2.red) {
-        return false;
+        return (false);
     }
 
     if (color1.green != color2.green) {
-        return false;
+        return (false);
     }
 
     if (color1.blue != color2.blue) {
-        return false;
+        return (false);
     }
 
-    return true;
+    return (true);
 }
 
 /**
@@ -101,7 +101,7 @@ Color brighter(const Color c) {
         (new_color.green == MIN_COLOR_VAL) && 
         (new_color.blue  == MIN_COLOR_VAL)) {
         new_color.red = new_color.green = new_color.blue = MIN_BRIGHTNESS_LEVEL;
-        return new_color;
+        return (new_color);
     }
 
     //Set any member that lies between 0 and 3 to 3.
@@ -136,7 +136,7 @@ Color brighter(const Color c) {
         new_color.blue = MAX_COLOR_VAL;
     }
 
-    return new_color;
+    return (new_color);
 }
 
 /**
@@ -155,5 +155,5 @@ Color darker(const Color c) {
     new_color.green = (int) (new_color.green * BRIGHTNESS_SCALE_FACTOR);
     new_color.blue  = (int) (new_color.blue * BRIGHTNESS_SCALE_FACTOR);
 
-    return new_color;
+    return (new_color);
 }

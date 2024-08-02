@@ -15,7 +15,7 @@ struct part build_part(int number, const char* name, int on_hand);
 int main() {
     print_part(build_part(10, "John", 11));
 
-    return 0;
+    return (0);
 }
 
 void print_part(struct part part_var) {
@@ -32,7 +32,7 @@ struct part build_part(int number, const char* name, int on_hand) {
     strcpy(part_var.name, name);
     part_var.on_hand = on_hand;
 
-    return part_var;
+    return (part_var);
 }
 
 /*

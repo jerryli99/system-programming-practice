@@ -33,10 +33,11 @@ int main(void) {
     for (int index = 0; index < code_size; index++) {
         if (country_codes[index].code == input_code) {
             printf("Country code %d is for %s\n", input_code, country_codes[index].country);
-            return 0;
+            return (0);
         }
     }
+    
     printf("Error: Country code %d doesn't match any country\n", input_code);
 
-    return 0;
+    return (0);
 }

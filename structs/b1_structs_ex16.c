@@ -15,5 +15,5 @@ int main() {
     i = 2 * b + 1;
     printf("%d\n", i);
 
-    return 0;
+    return (0);
 }

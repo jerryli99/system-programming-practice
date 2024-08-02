@@ -64,7 +64,7 @@ Point2d find_rectangle_center(const void *shape2d) {
     center.x_2d = (rect2d->upper_left.x_2d + rect2d->lower_right.x_2d) / 2;
     center.y_2d = (rect2d->upper_left.y_2d + rect2d->lower_right.y_2d) / 2;
 
-    return center;
+    return (center);
 }
 
 /**
@@ -96,9 +96,9 @@ void move_rectangle(const void *shape2d, const int x_units, const int y_units) {
 bool check_rect_horizontal_bounds(const Point2d point2d, const Rectangle *rect2d) {
     if ((point2d.x_2d >= rect2d->upper_left.x_2d) &&
         (point2d.x_2d <= rect2d->lower_right.x_2d)) {
-        return true;
+        return (true);
     }
-    return false;
+    return (false);
 }
 
 /**
@@ -112,9 +112,9 @@ bool check_rect_horizontal_bounds(const Point2d point2d, const Rectangle *rect2d
 bool check_rect_vertical_bounds(const Point2d point2d, const Rectangle *rect2d) {
     if ((point2d.y_2d >= rect2d->lower_right.y_2d) &&
         (point2d.y_2d <= rect2d->upper_left.y_2d)) {
-        return true;
+        return (true);
     }
-    return false;
+    return (false);
 }
 
 /**
@@ -128,14 +128,14 @@ bool check_rect_vertical_bounds(const Point2d point2d, const Rectangle *rect2d) 
 bool contains_point_rectangle(const void *shape2d, const Point2d point2d) {
     Rectangle *rect2d = (Rectangle*)shape2d;
     if (check_rect_horizontal_bounds(point2d, rect2d) == false) {
-        return false;
+        return (false);
     }
 
     if (check_rect_vertical_bounds(point2d, rect2d) == false) {
-        return false;
+        return (false);
     }
 
-    return true;
+    return (true);
 }
 
 /**
@@ -158,7 +158,7 @@ Rectangle create_rectangle(const Point2d upper_left, const Point2d lower_right) 
     rect2d.operation.move_shape = move_rectangle;
     rect2d.operation.contains_point = contains_point_rectangle;
 
-    return rect2d;
+    return (rect2d);
 }
 
 //just a quick test
@@ -191,7 +191,7 @@ int main() {
     printf("Point (%d, %d) is %sinside the rectangle\n", 
     random_point.x_2d, random_point.y_2d, in_bound2 ? "" : "not ");
 
-    return 0;
+    return (0);
 }
 
 /*

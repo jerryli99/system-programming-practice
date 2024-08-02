@@ -13,5 +13,5 @@ int main() {
 
     //part b 
     //const struct color MAGENTA = {.red = 255, .blue = 255};
-    return 0;
+    return (0);
 }

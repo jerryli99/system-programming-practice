@@ -19,7 +19,7 @@ int get_gcd(const int num1, const int num2) {
         tmp_num1 = temp;
     }
 
-    return tmp_num2;
+    return (tmp_num2);
 }
 
 /**
@@ -44,7 +44,7 @@ Fraction reduce_fraction(const Fraction frac) {
         result.denominator = (-result.denominator);
     }
 
-    return result;
+    return (result);
 }
 
 /**

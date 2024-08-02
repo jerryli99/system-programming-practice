@@ -21,7 +21,7 @@ int day_of_year(const Date date) {
         }
     }
 
-    return total_days;
+    return (total_days);
 }
 
 /**
@@ -56,7 +56,7 @@ int compare_dates(const Date date1, const Date date2) {
         }
     }
 
-    return comparison;
+    return (comparison);
 }
 
 /**
@@ -70,19 +70,19 @@ int compare_dates(const Date date1, const Date date2) {
 bool is_leap_year(const int year) {
     // Check if the year is divisible by 400
     if (year % 400 == 0) {
-        return true;
+        return (true);
     }
 
     // Check if the year is divisible by 100
     if (year % 100 == 0) {
-        return false;
+        return (false);
     }
 
     // Check if the year is divisible by 4
     if (year % 4 == 0) {
-        return true;
+        return (true);
     }
 
     // If none of the above conditions are met, it's not a leap year
-    return false;
+    return (false);
 }

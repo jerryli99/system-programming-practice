@@ -18,5 +18,5 @@ int main() {
     num3.imaginary = num1.imaginary + num2.imaginary;
     printf("%.2f %.2f\n", num3.real, num3.imaginary);
 
-    return 0;
+    return (0);
 }

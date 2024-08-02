@@ -10,7 +10,7 @@ Complex make_complex(const double real, const double imaginary) {
     new_complex.real = real;
     new_complex.imaginary = imaginary;
 
-    return new_complex;
+    return (new_complex);
 }
 
 Complex add_complex(const Complex struct1, const Complex struct2) {
@@ -18,7 +18,7 @@ Complex add_complex(const Complex struct1, const Complex struct2) {
     new_complex.real = struct1.real + struct2.real;
     new_complex.imaginary = struct1.imaginary + struct2.imaginary;
 
-    return new_complex;
+    return (new_complex);
 }
 
 int main() {
@@ -33,5 +33,5 @@ int main() {
 
     printf("%.2f %.2f\n", complex3.real, complex3.imaginary);
 
-    return 0;
+    return (0);
 }

@@ -77,5 +77,5 @@ int main() {
     in the function, resulting a weird error message.
     
     */
-    return 0;
+    return (0);
 }

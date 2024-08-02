@@ -48,7 +48,7 @@ int main() {
     s = scale_shape(s, 1.5);
     printf("Circle new radius after scaled by 1.5: %d\n", s.u.circle.radius);
 
-    return 0;
+    return (0);
 }
 
 double compute_area(struct shape s) {
@@ -57,7 +57,7 @@ double compute_area(struct shape s) {
     } else if (s.shape_kind == RECTANGLE) {
         return (s.u.rectangle.width * s.u.rectangle.height);
     } else {
-        return 0.0;
+        return (0.0);
     }
 }
 
@@ -65,7 +65,7 @@ struct shape shift_shape(struct shape s, int x, int y) {
     s.center.x = s.center.x + x;
     s.center.y = s.center.y + y;
 
-    return s;
+    return (s);
 }
 
 struct shape scale_shape(struct shape s, double scale_factor) {
@@ -78,5 +78,5 @@ struct shape scale_shape(struct shape s, double scale_factor) {
         //nothing
     }
 
-    return s;
+    return (s);
 }

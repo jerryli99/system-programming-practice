@@ -107,7 +107,7 @@ int main() {
         printf("Some tests failed. Number of failed tests: %d\n", test_failures);
     }
 
-    return 0;
+    return (0);
 }
 
 /*

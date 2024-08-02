@@ -41,5 +41,5 @@ int main() {
     test_compare_dates();
     printf("All tests passed successfully.\n");
 
-    return 0;
+    return (0);
 }
