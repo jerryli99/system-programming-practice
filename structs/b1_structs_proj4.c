@@ -1,11 +1,13 @@
 #include <stdio.h>
 
-typedef struct country_codes_{
+typedef struct country_codes_
+{
     char *country;
     int code;
 } CountryCodes;
 
-int main(void) {
+int main(void) 
+{
     const CountryCodes country_codes[] =
     {{"Argentina",            54}, {"Bangladesh",     889},
      {"Brazil",               55}, {"Burma (Myanmar)", 95},
@@ -30,14 +32,20 @@ int main(void) {
     printf("Enter a country code: ");
     scanf("%d", &input_code);
 
-    for (int index = 0; index < code_size; index++) {
-        if (country_codes[index].code == input_code) {
+    for (int index = 0; index < code_size; index++) 
+    {
+        if (country_codes[index].code == input_code) 
+        {
             printf("Country code %d is for %s\n", input_code, country_codes[index].country);
-            return (0);
+        } 
+        else 
+        { 
+            if (index == (code_size - 1)) 
+            {
+                printf("No matching country code.\n");
+            }
         }
     }
     
-    printf("Error: Country code %d doesn't match any country\n", input_code);
-
     return (0);
 }

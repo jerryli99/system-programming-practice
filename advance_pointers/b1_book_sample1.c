@@ -1,3 +1,4 @@
+
 //ignore style, I just copied this from book
 
 #include <stdio.h>
@@ -8,6 +9,7 @@
 #define MSG_LEN 60 //max length of reminder message
 
 int read_line(char str[], int n);
+void free_reminders(char *reminders[], int num_remind);//my own function
 
 int main(void) 
 {
@@ -58,6 +60,8 @@ int main(void)
         printf(" %s\n", reminders[i]);
     }
 
+    free_reminders(reminders, num_remind);
+
     return 0;
 }
 
@@ -73,4 +77,11 @@ int read_line(char str[], int n) {
     str[i] = '\0';
     
     return i;
+}
+
+
+void free_reminders(char *reminders[], int num_remind) {
+    for (int index = 0; index < num_remind; index++) {
+        free(reminders[index]);
+    }
 }
