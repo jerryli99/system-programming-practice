@@ -1,0 +1,87 @@
+Exercises
+1. see b1_advance_pointers_ex1.c
+
+2. see b1_advance_pointers_ex2.c
+
+3. see b1_advance_pointers_ex3.c
+
+4. see b1_advance_pointers_ex4.c
+
+--------------------------------------------------------------------------
+5. Suppose that f and p are declared as follows:
+
+struct {
+    union {
+        char a, b;
+        int c;
+    } d;
+    int e[5];
+} f, *p = &f;
+
+Which of the following statements are legal?
+
+(a) p->b = ' ';
+(b) p->e[3] = 10;
+(c) (*p).d.a = '*'; 
+(d) p->d->c = 20; 
+
+Answer: 
+(a) Illegal. Fix p->d.b = ' ';
+(b) Legal
+(c) Legal
+(d) Illegal. Fix p->d.c = 20;
+
+--------------------------------------------------------------------------
+6. see b1_advance_pointers_ex6.c
+
+--------------------------------------------------------------------------
+
+7. The following loop is supposed to delete all nodes from a linked list and
+release the memory that they occupy. Unfortunately, the loop is incorrect.
+Explain what's wrong with it and how to fix the bug.
+
+for (p = first; p != NULL; p = p->next)
+    free(p);
+
+
+Answer:
+Since in the first iteraiton of the loop, we free p, p becomes a dangling 
+pointer; thus, where does p point to then? Not to even mension where does 
+p->next point to? Undefined behavior.
+
+So to fix it:
+
+struct node *next_node;
+
+while (p != NULL) {
+    next_node = p->next;
+    free(p);
+    p = next_node;
+}
+
+--------------------------------------------------------------------------
+8. see b1_advance_pointers_ex8.c
+
+--------------------------------------------------------------------------
+9. True or false: If x is a structure and a is a member of that structure, then
+(&x)->a is the same as x.a.
+
+Answer: 
+(&x)->a is equivelant to (*(&x)).a which is x.a, so yes, True.
+
+--------------------------------------------------------------------------
+10. Modify the print_part function of Section 16.2 so that its parameter is a
+pointer to a part strucutre. Use the -> operator in your answer.
+
+Answer: 
+Pretty straight forward.
+
+void print_part(struct part *p)
+{
+    printf("Part number: %d\n", p->number);
+    printf("Part name: %s\n", p->name);
+    printf("Quantity on hand: %d\n", p->on_hand);
+}
+
+--------------------------------------------------------------------------
+11. 

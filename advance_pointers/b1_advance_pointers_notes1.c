@@ -59,6 +59,7 @@ int main() {
     printf("%s\n", result);
 
     free(result);
+    result = NULL;
 
-    return 0;
+    return (0);
 }
