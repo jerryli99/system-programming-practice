@@ -75,7 +75,7 @@ struct node *delete_from_list(struct node **list, int target)
     {
         *list = list_ptr->next; // Update the head pointer
         free(list_ptr);         // Free the node
-        return *list;           // Return the new head
+        return (*list);           // Return the new head
     }
 
     // Traverse the list to find the target node
@@ -86,13 +86,13 @@ struct node *delete_from_list(struct node **list, int target)
             struct node *temp = list_ptr->next;
             list_ptr->next = temp->next; // Bypass the node to be deleted
             free(temp);                  // Free the node
-            return *list;                // Return the (possibly updated) head
+            return (*list);                // Return the (possibly updated) head
         }
         list_ptr = list_ptr->next;
     }
 
     // Target not found, return the unchanged list
-    return *list;
+    return (*list);
 }
 
 //just quick test.
