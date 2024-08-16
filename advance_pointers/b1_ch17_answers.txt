@@ -84,4 +84,76 @@ void print_part(struct part *p)
 }
 
 --------------------------------------------------------------------------
-11. 
+11. see b1_advance_pointers_ex11.c
+
+12. see b1_advance_pointers_ex12.c
+
+--------------------------------------------------------------------------
+13. The following function is supposed to insert a new node into its proper place
+in an ordered list, returning a pointer to the first node in the modified list.
+Unforunately, the function doesn't work corectly in all cases. Explain what's
+wrong with it and show how to fix it. Assume that the node structure is the
+one defined in section 17.5.
+
+struct node *insert_into_ordered_list(struct node *list, struct node *new_node)
+{
+    struct node *cur = list, *prev = NULL;
+    while (cur->value <= new_node->value) {
+        prev = cur;
+        cur = cur->next;
+    }
+    prev->next = new_node;
+    new_node->next = cur;
+    return list;
+}
+
+Answer:
+This code does not work when list is NULL. Also, if the new_node has a smaller 
+value than the first node in the list, the loop will never run, 
+and prev will remain NULL. However, in this case, the code still 
+tries to access prev->next, leading to undefined behavior.
+
+Fix:
+struct node *insert_into_ordered_list(struct node *list, struct node *new_node)
+{
+    struct node **list_ptr = &list; // Pointer to pointer to the list
+
+    while (*list_ptr != NULL) 
+    {
+        if ((*list_ptr)->value >= new_node->value)
+        {
+            break;
+        }
+        list_ptr = &(*list_ptr)->next;
+    }
+
+    new_node->next = *list_ptr;
+    *list_ptr = new_node;
+
+    return list; // Return the updated head of the list
+}
+
+see the tested code in b1_advance_pointers_ex13.c
+
+----------------------------------------------------------------------------
+14. see b1_advance_pointers_ex14.c
+
+15. see b1_advance_pointers_ex15.c
+
+16. see b1_advance_pointers_ex16.c
+
+17. see b1_advance_pointers_ex17.c
+
+18. not sure what the question means. Seems to be missing some information
+
+19. see b1_advance_pointers_ex19.c
+
+===========================================================================
+
+Projects:
+
+1, 2. see /proj1_and_2
+
+3. see /proj3
+
+4. see /proj4
