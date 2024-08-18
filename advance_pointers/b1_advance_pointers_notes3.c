@@ -7,7 +7,7 @@
 //Without the node tag, we'd have no way to declare 
 //the type of next.
 
-// typedef struct node_ {
+// typedef struct node {
 //     int value;
 //     Node *next;
 // } Node;
