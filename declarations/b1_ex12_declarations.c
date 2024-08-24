@@ -4,11 +4,11 @@
 
 // Function definitions
 float float_function(long x) {
-    return (float)x / 2.0;
+    return ((float)x / 2.0);
 }
 
 int int_function(double x) {
-    return (int)(x * 2);
+    return ((int)(x * 2));
 }
 
 // Function f that returns a pointer to int_function
@@ -25,7 +25,7 @@ int main() {
     int result = returned_function(4.5);
     printf("Result: %d\n", result); // This should print "Result: 9"
 
-    return 0;
+    return (0);
 }
 
 

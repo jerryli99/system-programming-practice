@@ -44,7 +44,7 @@ int main() {
     
     printf("In file_scope_test1.c after file_scope_test2.c modification - global_var: %d\n", global_var);
 
-    return 0;
+    return (0);
 }
 
 
