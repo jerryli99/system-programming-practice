@@ -1,0 +1,380 @@
+Exercise answers:
+
+1. For each of the following declarations, identify the storage class, type
+qualifiers, type specifiers, declarators, and initializers.
+
+(a) static char **lookup(int level);
+    Answer:
+    Storage class: static
+    Type qualifiers: None
+    Type specifiers: char
+    Declarators: **lookup(int level)
+    Initializers: None
+
+(b) volatile unsigned long io_flags;
+    Answer:
+    Storage class: None
+    Type qualifiers: volatile
+    Type specifiers: unsigned long
+    Declarators: io_flags
+    Initializers: None
+
+(c) extern char *file_name[MAX_FILES], path[];
+    Answer:
+    Storage class: extern
+    Type qualifiers: None
+    Type specifiers: char
+    Declarators: *file_name[MAX_FILES], path[]
+    Initializers: None
+
+(d) static const char token_buf[] = "";
+    Answer:
+    Storage class: static
+    Type qualifiers: const
+    Type specifiers: char
+    Declarators: token_buf[]
+    Initializers: ""
+
+-----------------------------------------------------------------------
+
+2. Answer each of the following questions with auto, extern, registers, and/or
+static.
+
+(a) Which storage class is used primarily to indicate that a variable or
+    function can be shared by several files? 
+    
+    Answer: extern
+
+(b) Suppose that a variable x is to be shared by several functions in one file
+    but hidden from functions in other files. Which storage class should x
+    be declared to have? 
+    
+    Answer: static
+
+(c) Which storage classes can affect the storage duration of a variable?
+
+    Answer:
+    static, when declared in a block it provides static storage duration.
+    extern, when declared in a block it provides static storage duration.
+
+-----------------------------------------------------------------------
+
+3. List the storage duration (static or automatic), scope (block or file), and 
+linkage (internal, external, or none) of each variable and parameter in the 
+following file:
+
+extern float a;
+
+void f(register double b)
+{
+    static int c;
+    auto char d;
+}
+
+Answer:
+
+a:
+    storage duration: static.
+    scope: file.
+    linkage: external.
+
+b:
+    storage duration: automatic.
+    scope: block.
+    linkage: None.
+
+c:
+    storage duration: static.
+    scope: block.
+    linkage: none.
+
+d:
+    storage duration: automatic.
+    scope: block.
+    linkage: none.
+
+------------------------------------------------------------------------
+
+4. Let f be the following function. What will be the value of f(10) if f has
+never been called before? What will be the value of f(10) if f has been called
+five times previously?
+
+int f(int i)
+{
+    static int j = 0;
+    return i * j++;
+}
+
+Answer: 
+[answer 1]: 0
+
+[answer 2]: 50
+
+10 * 0
+10 * 1
+10 * 2
+10 * 3
+10 * 4 --> previous 5 times ends here
+10 * 5 --> the 6th time
+
+-------------------------------------------------------------------------
+
+5. State whether each of the following statements is true or false. 
+Justify each answer.
+
+(a) Every variable with static storage duration has file scope. 
+
+Answer: False
+A static variable declared inside a block has block scope, but with static 
+duration.
+
+(b) Every variable declared inside a function has no linkage. 
+
+Answer: False
+If the variable was declared as static earlier in the file and outside of any 
+function definition, then it has internal linkage, and external linkage otherwise.
+
+(c) Every variable with internal linkage has static storage duration. 
+
+Answer: True.
+Declaring a variable static that is outside of a function gives 
+internal linkage (restricted to a single file).
+
+(d) Every parameter has block scope. 
+
+Answer: True.
+Parameters are local to the function. 
+
+------------------------------------------------------------------------
+
+6. The following function is supposed to print an error message. Each message 
+is preceded by an integer, indicating the number of times the function has been 
+called. Unfortunately, the function always display 1 as the number of the error 
+message. Locate the error and show how to fix it without making any changes 
+outside the function.
+
+void print_error(const char *message)
+{
+    int n = 1;
+    printf("Error %d: %s\n", n++, message);
+}
+
+Answer: add the storage class static. static int n = 1;
+
+-----------------------------------------------------------------------
+
+7. Suppose that we declare x to be a const object. Which one of the following
+statements about x is false?
+
+(a) If x is of type int, it can be used as the value of a case label in a switch
+statement.
+
+Answer: False. 
+A const variable cannot be used in constant expressions.
+As a switch statement requires a constant expression, we can't use a const int.
+Also, i.e. const int SIZE = 10; int array[SIZE] will fail because it is not an
+expression but read-only.
+
+
+(b) The compiler will check that no assignment is made to x.
+
+Answer: True. 
+A const variable is read-only and the compiler will make sure no assignment is 
+made to x.
+
+(c) x is subject to the same scope rules as variables.
+    
+Answer: True. 
+The only way to change the scope rules of a variable is by changing the place 
+in a file in which it is declared.
+
+(d) x can be of any type.
+
+Answer: True. i.e. const void x;
+
+----------------------------------------------------------------------------
+
+8. Write a complete description of the type of x as specified by each of the
+following declarations.
+
+(a) char (*x[10])(int);
+
+Answer:
+x is an
+array with size 10 of
+pointers to
+functions with one int argument
+with the return type char
+
+(b) int (*x(int))[5];
+
+Answer:
+x is a function
+with one int parameter
+that returns a pointer to 
+an array with size 5 of
+integers.
+
+
+(c) float *(*x(void))(int)
+
+Answer:
+x is a function
+with no arguments
+that returns a pointer to 
+a function with one int argument
+that returns a pointer to a float
+
+(d) void (*x(int, void (*y)(int))) (int);
+
+Answer:
+x is a function
+with two arguments: int and a pointer to a function with one int argument with return type void.
+that returns a pointer to
+a function that takes one int argument
+with return type void
+
+---------------------------------------------------------------------------
+
+9. Use a series of type definitions to simply each of the declarations
+in Exercise 8.
+
+(a) char (*x[10])(int);
+
+Answer:
+typedef char Fcn(int);
+typedef Fcn *Fcn_ptr;
+typedef Fcn_ptr Fcn_ptr_array[10]
+Fcn_ptr_array x;
+
+(b) int (*x(int))[5];
+
+Answer:
+typedef int Arr[5];
+typedef Arr Fcn(int)
+Fcn *x;
+
+(c) float *(*x(void))(int);
+
+Answer:
+typedef float *Outer_Fcn(int);
+typedef Outer_Fcn *Inner_fcn(void);
+Inner_Fcn x;
+
+(d) void (*x(int, void (*y)(int)))(int);
+
+Answer:
+typedef void Outer_Fcn(int);
+typedef void *Arg_Fcn(int);
+typedef Outer_Fcn *Inner_fcn(int, Arg_Fcn);
+Outer_Fcn x;
+
+---------------------------------------------------------------------------
+
+10. Write declarations for the following variables and functions:
+
+(a) p is a pointer to a function with a character pointer argument that returns
+    a character pointer.
+
+Answer: char *(*p) (char *);
+
+
+(b) f is a function with two arguments: p, a pointer to a structure with tag t,
+    and n, a long integer. f returns a pointer to a function that has no
+    arguments and returns nothing.
+
+Answer: void *f(truct t *p, long n) (void);
+
+(c) a is an array of four pointers to functions that have no arguments and
+    return nothing. The elements of a initially point to functions named
+    insert, search, update, and print.
+
+Answer: void (*a[])(void) = {insert, search, update, print};
+
+(d) b is an array of 10 pointers to functions with two int arguments that
+    return structures with tag t.
+
+Answer: struct t (*b[10])(int, int);
+
+-----------------------------------------------------------------------------
+
+11. In sectin 18.4, we saw that the following declarations are illegal:
+
+int f(int)[];       /* functions can't return arrays */
+int g(int)(int)     /* functions can't return functions */
+int a[10](int);     /* array elements can't be functions */
+
+We can, however achieve similar effects by using pointers: a function can
+return a pionter to the first element in an array, a function can return a
+pointer to a function, and the elements of an array can be pointers to functions.
+Revise each of these declarations accordingly.
+
+Answer: 
+
+int *f(int);
+
+int (*g(int))(int);
+
+int (*a[10])(int);
+
+----------------------------------------------------------------------------
+
+12. 
+(a) Write a complete description of the type of the function f, assuming
+    that it's declared as follows:
+
+    int (*f(float (*)(long), char*))(double);
+
+Answer: 
+f is a function that takes two arguments:
+
+The first argument is a pointer to a function that:
+Takes a long as its parameter.
+Returns a float.
+
+The second argument is a pointer to a char.
+
+f returns a pointer to a function that:
+
+Takes a double as its parameter.
+Returns an int.
+
+(b) Give an example showing how f would be called.
+
+see b1_ex12_declarations.c
+
+---------------------------------------------------------------------------
+
+13. Which of the following declarations are legal? (Assume that PI is a macro that
+represents 3.14159.)
+
+(a) char c = 65;   
+
+Answer: Legal
+
+(b) static int i = 5, j = i * i;                        
+
+Answer: Illegal. static storage duration variables require a constant 
+expression for initialization.
+
+(c) double d = 2 * PI;
+
+Answer: Legal
+
+(d) double angles[] = {0, PI / 2, PI, 3 * PI / 2};      
+
+Answer: Legal
+
+---------------------------------------------------------------------------
+
+14. Which kind of variables cannot be initialized?
+
+(a) Array variables.
+(b) Enumeration variables.
+(c) Structure variables.
+(d) Union variables.
+(e) None of the above.
+
+Answer: e
+
+---------------------------------------------------------------------------

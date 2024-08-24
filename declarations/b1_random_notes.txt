@@ -1,0 +1,319 @@
+storage duration, scope, and linkage.
+
+syntax declarations in their most general form.
+Storage classes, type qualifiers, declarators, and initializers.
+The inline keyword in C99 function declarations.
+
+Declaration specifiers:
+describes the properties of the variables or functions being declared. 
+Declarators give their names and may provide additional information
+about their properties.
+
+Declaration specifiers fall into three categories:
+1. Storage classes. There are 4 storage classes: auto, static, extern, and
+register. At most one storage class may appear in a declaration; if present,
+it should come first.
+
+2. Type qualifiers. In C89, there are only two type qualifiers: const and 
+volatile. C99 has a third type qualifier, restrict. A declaration may contain
+zero or more type qualifiers.
+
+3. Type specifiers. The keywords void, char, short, int, long, float, double,
+signed, and unsigned are all type specifiers. These words may be combined as
+described in Chapter 7; the order in which they appear doesn't matter. So,
+(int unsigned long is the same as unsigned long int). Type specifiers also 
+include specifications of structures, unions, and enumerations. Type names
+created by using typedef are type specifiers as well.
+
+4. Function specifiers. This category has just one member, the keyword inline.
+Type qualifiers and type specifiers should follow the storage class, but there
+are no other restructions on their order. As a matter of style, put type 
+qualifiers before type specifiers.
+
+============================================================================
+Storage Classes: (auto, static, extern, register)
+Storage classes can be specified for variables and -- to a lesser extent -- 
+functions and parameters.
+
+--properties of Variables:
+Every variable in a C program has three properties:
+
+1. Storage duration. The storage duration of a variable determines when memory 
+is set aside for the variable and when that memory is released. Storage for a 
+variable with automatic storage duration is allocated when the surrounding
+block is executed; storage is deallocated when the block terminates, causing the 
+variable to lose its value. A variable with static storage duration stays at the
+same storage location as long as the program is running, allowing it to retain
+its value indefinitely.
+
+2. Scope. The scope of variable is the portion of the program text in which the
+variable can be referenced. A variable can have either block scope (the variable
+is visible from its point of declaration to the end of the enclosing block.) or
+file scope (the variable is visible from its point of declaration to the end of 
+the enclosing file.)
+
+3. Linkage. The linkage of a variable determines the extent to which it can be 
+shared by different parts of a program. A variable with external linkage may be
+shared by several (perhaps all) files in a program. A variable internal linkage
+is restricted to a single file, but may be shared by the functions in that file.
+A variable with no linkage belongs to a single function and can't be shared at 
+all.
+
+
+The default storage duration, scope, and linkage of a variable depend on where
+it is declared.
+
+Variables declared inside a block (including a function body) have automatic
+storage duration, block scope, and no linkage.
+
+Variable declared outside any block, at the outermost level of a program 
+have static storage duration, file scope, and external linkage.
+
+==============================================================================
+The static storage class:
+
+The static storage class can be used with all variables, regardless of where 
+they're declared, but it has a different effect on a variable declared outside
+a block than it does on a variable declared inside a block.
+
+When used inside a block, static changes the variable's storage duration from 
+automatic to static. The following figure shows the effect of declaring i and
+j to be static:
+-------------------
+static int i; (static storage duration, file scope, internal linkage)
+
+void f(void)
+{
+    static int j; (static storage duration, block scope, no linkage)
+}
+
+--------------------
+
+When used in a declaration outside a block, static essentially hides a variable
+within the file in which it is declared; only functions that appear in the same
+file can see the variable. In the following example, functions 1 and f2 both have
+access to i, but functions in other files don't.
+
+--------------------------
+
+static int i;
+
+void f1(void)
+{
+    //can access i
+}
+
+void f2(void)
+{
+    //can access i
+}
+
+----------------------------
+
+The use of static can help implement a technique known as information hiding.
+
+A static variable declared within a block resides at the same storage location
+throughout program execution. Unlike automatic variables, which lose their 
+value each time the program leaves the enclosing block, a static variable will 
+retain its value indefinitely. 
+
+static variables have some interesting properties:
+1. A static variable in a block is initialized only once, prior to program 
+execution. An auto variable is initialized every time it comes into existence.
+
+2. Each time a function is called recursively, it gets a new set of auto 
+variables. If it has a static variable, on the other hand, that variable is 
+shared by all calls of the funtion.
+
+3. Although a function shouldn't return a pointer to an auto variable, there's 
+nothing wrong with it returning a pointer to a static variable.
+
+Declaring one of its variable to be static allows a function to retain information
+between calls in a "hidden" area that the rest of the program can't access. 
+More often, however, we'll use static to make programs more efficient.
+
+Consider:
+
+char digit_to_hex_char(int digit)
+{
+    const char hex_chars[16] = "0123456789ABCDEF";
+    return hex_chars[digit];
+}
+
+Now each time we call this digit_to_hex_char(..) function, the characters 
+0123456789ABCDEF will be copied into the hex_chars array to initialize it. If
+we use static:
+
+char digit_to_hex_char(int digit)
+{
+    static const char hex_chars[16] = "0123456789ABCDEF";
+    return hex_chars[digit];
+}
+
+since static only initializes once, we've improved the speed of the function.
+
+==============================================================================
+
+The extern Storage Class:
+The extern storage class enables several source files to share the same variable.
+
+extern int i;
+
+informs the compiler that i is an int variable, but doesn't cause it to allocate
+memory for i. In C terminology, this declaration is not a definition of i; it 
+merely informs the the compiler that we need access to a variable that's defined
+elsewhere. 
+
+A variable can have many declarations in a program but should have only one 
+definition.
+
+There is one exception to the rule that an extern declaration of a variable 
+is not a definition though. An extern declaration that initializes a variable
+serves as a definition of the variable. For example, the declaration 
+
+extern int i = 0; is effectiveely the same as int i = 0;
+
+This rule prevents multiple extern declarations from initializing a variable in 
+different ways. 
+
+A variable in an extern declaration always has static storage duration. The 
+scope of the variable depends on the declaration's placement. If the declaration
+is inside a block, the variable has block scope; otherwise, it has file scope.
+
+extern int i; (static storage duration, file scope, ? linkage)
+
+void f(void)
+{
+    extern int j; (static storage duration, block scope, ? linkage)
+}
+
+So, linkage.... determining the linkage of an extern variable is a bit harder.
+If the variable was declared static earlier in the file, the it has internal 
+linkage. Otherwise, the variable has external linkage.
+
+==============================================================================
+
+The register Storage Class:
+
+Using the register storage class in the declaration of a variable asks the 
+compiler to store the variable in a register instead of keeping it in main 
+memory like other variables. (Data stored in a register can be accessed and 
+updated faster than data stored in ordinary memory.)
+
+Specifying the storage class of a variable to be register is a request, not a 
+command. The compiler is free to store a register variable in memory if it 
+chooses.
+
+The register storage class is legal only for variables declared in a block.
+A register variable lacks one property that an auto variable has: since 
+registers don't have addresses, it is illegal to use the & operator to take the 
+address of a register variable. 
+
+register is best used for variables that are accessed and/or updated frequestly.
+For example, the loop control variable in a for statement is a good candidate for
+register treatment:
+
+int sum_array(int a[], int n)
+{
+    register int i;
+    int sum = 0;
+
+    for (i = 0; i < n; i++)
+    {
+        sum += a[i];
+    }
+    return sum;
+}
+
+==============================================================================
+The storage class of a function:
+Function declaraions may include a storage class, but the only options are
+extern and static. The word extern at the begining of a function declaration 
+specifies that the function has external linkage, allowing it to be called from 
+other files. static indicates internal linkage, limiting use of the function's 
+name to the file in which it's defined. If no storage class is specified, the 
+function is assumed to have external linkage.
+
+Declaring functions to be extern is like declaring variables to be auto-- it 
+serves no purpose. For that reason, I don't use extern in function declaraions.
+Be aware, however, that some programers use extern extensively, which certainly 
+does no harm.
+
+Declaring functions to be static, on the other hand, is quite useful. In fact,
+I recommand using static when declaring any function that is not intended to be
+called from other files. The benefits of doing so include:
+
+(1). easier to maintain. So declaring a function f to be static guarantees that 
+f is not visible outside the file in which its definition appears. As a result,
+someone modifying the program later knows that changes to f won't affect functions
+in other files. 
+
+(2). reduced "name space pollution". Since functions declared static have internal
+linkage, their names can be reused in other files. Although we probabily won't 
+deliberately resue a function name for some other purpose, it can be hard to 
+avoid in large programs. An excessive number of names with external linkage
+can result in what C programmers call "name space pollution": names in different
+files accidentally conflicting with each other. Using static helps prevent this 
+problem.
+
+==============================================================================
+
+Type qualifiers:
+const, volatile, and restrict (See chapter 20.3)
+
+Declaring  an object to be const has several advantages:
+1. It is a form of documentation: it alerts anyone reading the program to the 
+read-only nature of the object.
+
+2. The compiler can check that the program does not inadvertently attempt to 
+change the value of the object.
+
+3. When programs are written for certain types of applications (embedded systems,
+in particular), the compiler can use the word const to idenfity data to be stored
+in ROM (read-only memory)
+
+==============================================================================
+
+What does this mean: int *(*x[10])(void)?
+
+Tips: always read declarators from the inside out. When there is a choice, always
+faor [] and () over *. 
+
+i.e. int *ap[10] means ap is an array of size 10 of pointers.
+
+i.e. void (*pf) (int) means pf points to a function with an int argument, and 
+void is the return type of thsi function.
+
+So....
+
+int *(*x[10])(void) means x is an array of pointers to functions with no arguments,
+returning pointer to int.
+
+A function cannot return an array, but it can return a pointer to an array.
+A function cannot return function, but it can return a pointer to a function.
+
+Arrays of functions are not allowed, but an array may contain pointers to functions.
+
+
+==============================================================================
+
+Using type definitions to simplify declarations
+
+Some people like to use type definitions to help simplify complex declarations.
+
+i.e. int *(*x[10]) (void);
+
+To make x's type easier to understand, we could use the following series of type
+definitions:
+
+typedef int *Fcn(void);
+typedef Fcn *Fcn_ptr;
+typedef Fcn_ptr Fcn_ptr_array[10];
+Fcn_ptr_array x;
+^-- (how to read this?)
+
+If we read these lines in reverse order, we see that x has type Fcn_ptr_array,
+a Fcn_ptr_array is an array of Fcn_ptr values, a Fcn_ptr is a pointer to type 
+Fcn, and a Fcn is a function that has no arguments and returns a pointer to an 
+int value.
+
