@@ -1,0 +1,27 @@
+File buffering:
+
+int fflush(FILE *stream);
+void setbuf(FILE *restrict stream, char *restrict buf);
+int setvbuf(FILE *restrict stream, char *restrict buf, int mode, size_t size);
+
+Transferring data to or from a disk drive is a relatively slow operation. 
+As a result, it is not feasible for a program to access a disk file directly 
+each time it wants to read or write a byte. 
+
+The secret to achieving acceptable performance is buffering:
+data written to a stream is actually stored in a buffer area in memory; when 
+it is full, the buffer is "flushed" (written to the actual output device).
+
+Input streams can be buffered in a similar way: the buffer contains data from
+the input device; input is read from this buffer instead of the device itself.
+
+Buffering can result in enormous gains in efficiency, since reading a byte from 
+a buffer or storing a byte in a buffer takes hardly any time at all. Of course,
+it takes time to transfer the buffer contents to or from disk, but one large 
+"block move" is much faster than many tiny byte moves.
+
+The functions in <stdio.h> perform buffering automatically when it seems 
+advantageous. The buffering takes place behind the scenes, and we usually don't
+worry about it. On rare occasions, though, we may need to take a more active role.
+If so, we can use the functions fflush, setbuf, and setvbuf.
+

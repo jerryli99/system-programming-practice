@@ -1,0 +1,44 @@
+The functions in character I/O will treat characters as values of type int, not char.
+One reason is that the input functions indicate an end-of-file condition by 
+returning EOF, which is a negative integer constant.
+
+Output functions:
+int fputc(int c, FILE *stream);
+int putc(int c, FILE *stream);
+int putchar(int c);
+
+putchar writes one character to the stdout stream
+
+fputc and putc are more general versions of putchar that write a character to 
+an arbitrary stream
+
+Although putc and fputc do the same thing, putc is usually implemented as a 
+macro, while fputc is implemented only as a function.
+
+#define putchar(c) putc((c), stdout)
+
+Input functions:
+int fgetc(FILE *stream);
+int getc(FILE *stream);
+int getchar(void);
+int ungetc(int c, FILE *stream);
+
+getchar reads a character from the stdin stream:
+ch = getchar();
+
+fgets and getc read a character from an arbitrary stream:
+ch = fgetc(fp);
+ch = getc(fp);
+
+All thress functions treat the character as an unsigned char value (which is 
+then converted to int type before it is returned.) As a result, they never return 
+a negatie value other than EOF.
+
+The relationship between getc and fgetc is similar to that between putc and fputc.
+getc is usually implemented as a macro, while fgetc is implemented only as a 
+function. getchar is normally a macro a well:
+
+#define getchar() getc(stdin)
+
+
+

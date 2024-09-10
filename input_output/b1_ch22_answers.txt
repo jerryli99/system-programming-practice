@@ -1,0 +1,130 @@
+Exercises:
+
+1. Indicate whether each of the following files is more likely to contain text
+data or binary data:
+
+(a) A file of object code produced by a C compiler
+
+Answer: binary 
+
+(b) A program listing produced by a C compiler
+
+Answer: ?? no idea what program listing means. Text I suppose.
+
+(c) An email message sent from one computer to another
+
+Answer: text
+
+(d) A file containing a graphics image
+
+Answer: binary
+
+----------------------------------------------------------------------------
+2. Indicate which mode string is most likely to be passed to fopen in each of
+the following situations:
+
+(a) A database management system opens a file containing records to be updated.
+
+Answer: r+b mode
+
+(b) A mail program opens a file of saved messages so that it can add additional
+messages to the end.
+
+Answer: a mode
+
+(c) A graphics program opens a file containing a picture to be displayed on the
+screen.
+
+Answer: rb mode
+
+(d) An operating system command interpreter opens a "shell script" 
+(or "batch file") containing commands to be executed.
+
+Answer: r mode
+
+---------------------------------------------------------------------------
+3. Find the error in the following program fragment and show how to fix it.
+
+FILE *fp;
+
+if (fp = fopen(filename, "r")) {
+    //read characters until end of file
+}
+fclose(fp);
+
+Answer:
+The issue: fclose(fp) will give us an error if fp is a null pointer.
+
+Fix the issue:
+FILE *fp;
+
+fp = fopen(filename, "r");
+
+if (fp == NULL)
+{
+    printf("Error, cannot open file: %s\n", filename);
+    exit(EXIT_FAILURE);
+}
+
+//read characters until end of file....
+
+fclose(fp);
+
+----------------------------------------------------------------------------
+4. Show how each of the following numbers will look if displayed by printf with 
+%#012.5g as the conversion specification:
+
+see b1_input_output_ex4.c
+
+---------------------------------------------------------------------------
+5. skipped.
+
+6. see b1_input_output_ex6.c
+
+7. skipped.
+
+----------------------------------------------------------------------------
+8. In previous chapters, we've used the scanf format string " %c" when we wanted 
+to skip white-space characters and read a nonblank character. Some programmers 
+use "%1s" instead. Are the two techniques equivalent? If not, what are the
+differences?
+
+Answer:
+
+" %c": The format specifier " %c" is used to read a single character from input. 
+The space before %c tells scanf to skip any leading whitespace 
+(such as spaces, tabs, or newlines) before reading the character. It reads 
+exactly one character, including any non-whitespace characters 
+(like letters, digits, symbols, etc.).
+
+"%1s": The format specifier "%1s" is used to read a string of at most one 
+character, excluding leading whitespace. It stops reading input when it 
+encounters whitespace. "%1s" behaves like %s, which skips any leading 
+whitespace and then reads a sequence of non-whitespace characters, but it will 
+only read a maximum of one non-whitespace character.
+
+" %c" reads a single character and stores it in a char variable.
+
+"%1s" reads a single non-whitespace character into a string (a char array) and 
+appends a null terminator (\0).
+------------------------------------------------------------------------------
+9. Which of the following calls is not a valid way of reading one character from 
+the standard input stream?
+
+(a) getch()
+
+(b) getchar()
+
+(c) getc(stdin)
+
+(d) fgetc(stdin)
+
+Answer: (a).
+
+getch() does not read from stdin. 
+getch() reads a single character from the keyboard without echoing it on the 
+screen (useful for password input, etc.). It doesn’t require pressing "Enter" 
+to read the character.
+
+-------------------------------------------------------------------------------
+10. 

@@ -1,0 +1,10 @@
+Q: When I opened the txt file in a hex editor, I cannot see the EOF indicator, why?
+
+Well, EOF is an integer error code returned by a function, like fread, read.
+EOF is not stored in the file. EOF (usually defined as -1) is returned by OS 
+when there's no more data to read or an input error occurred. 
+So once you reach the end of file, you must hit EOF.
+
+Q: When I read a text file and there are numbers in it, what will happen if
+I simply read it in "r" mode?
+

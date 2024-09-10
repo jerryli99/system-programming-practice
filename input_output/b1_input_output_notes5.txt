@@ -1,0 +1,78 @@
+So we have character I/O. Now we have line I/O.
+
+Output functions:
+int fputs(const char *restrict s, FILE *restrict stream);
+int puts(const char *s);
+
+puts writes a string of characters to stdout. After it writes the characters in 
+the string, puts always adds a new-line character.
+
+fputs is more general version of puts. Its second argument indicates the stream
+to be written.
+
+Unline puts, the fputs function does not write a new-line character unless 
+one is present in the string. 
+
+Both functions return EOF if a write error occurs; otherwise, they return a 
+nonnegative number.
+
+Input Functions:
+char *fgets(char *restrict s, int n, FILE *restrict stream);
+char *gets(char *s);
+
+gets function reads a line from stdn. It reads the characters one by one, 
+storing them in the array pointed to by str, until it reads a new-line character
+(which it discards).
+
+fgets is a more general version of gets that can read from any stream. 
+
+gets never stores the new-line character, but fgets sometimes does.
+
+Both gets and fgets return a null pointer if a read error occurs or they reach 
+the end of the input stream before storing any characters.
+
+It is generally safer to use fgets.
+=================================================================================
+
+Then there is block I/O.....
+
+size_t fread(void *restruct ptr, size_t size, size_t nmemb, FILE *restrict stream);
+size_t fwrite(const void *restrict ptr, size_t size, size_t nmemb, FILE *restrict stream);
+
+The fread and fwrite functions allow a program to read and write large blocks of
+data in a sinle step. fread and fwrite are used primarily with binary streams,
+although -- with care -- it is possible to use them with text streams as well.
+
+fwrite is designed to copy an array from memory to a stream. The first argument 
+in a call of fwrite is the array's address, the second argument is the size of 
+each array element (in bytes), and the third is the number of elements to write.
+The fourth argument is a file pointer, indicating where the data should be written.
+
+To write the entire contents of the array a, for instance, we could use the following
+call of fwrite:
+
+fwrite(a, sizeof(a[0]), sizeof(a) / sizeof(a[0]), fp);
+
+fwrite returns the number of elements (not bytes) actually written. This number
+will be less than the third argument if a write error occurs.
+
+fread will read the elements of an array from a stream. fread's arguments are 
+similar to fwrite's: the array's address, the size of each element (in bytes), 
+the number of elements to read, and a file pointer. 
+
+n = fread(a, sizeof(a[0]), sizeof(a) / sizeof(a[0]), fp);
+
+It is important to check freads return value, which indicates the actual number
+of elements (not bytes) read. This number should equal the third argument unless 
+the end of the input file was reached or a read error occured. The feof and ferror
+functions can be used to determine the reason for any shortage.
+
+To write structure variable s to a file, for instance, we could use the following
+call of fwrite:
+
+fwrite(&s, sizeof(s), 1, fp);
+
+Be careful when usign fwrite to write out structures that contain pointer values;
+these values are not guaranteed to be valid when read back in.
+
+

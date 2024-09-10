@@ -1,0 +1,47 @@
+File positioning:
+
+int fgetpos(FILE *restrict stream, fpos_t *restrict pos);
+int fseek(FILE *stream, long int offset, int whence);
+int fsetpos(FILE *stream, const fpos_t *pos);
+long int ftell(FILE *stream);
+void rewind(FILE *stream);
+
+Every stream has an associated file position.
+
+When a file is opened, the file position is set at the beginning of the file.
+(If the file is opened in "append" mode, however, the initial file position may
+be at the beginning or end of the file, depending on the implementation.)
+
+Then, when a read or write operation is performed, the file position advances
+automatically, allowing us to move through the file in a sequential manner.
+
+Although sequential access is fine for many applications, some programs need the
+ability to jump around within a file, accessing some data here and other data 
+there. If a file contains a series of records, for example, we might want to 
+jump directly to a particular record and read it or update it.
+
+The fseek function changes the file position associated with the first argument
+(a file pointer). The third argument specifies whether the new position is to be 
+calculated with respect to the beginning of the file, the current position, or 
+the end of the file.
+
+SEEK_SET beginning of file
+SEEK_CUR current file position
+SEEK_END end of file
+
+The second argument is a (possibly negative) byte count. To move to the beginning
+of a file. For example, the seek direction would be SEET_SET and the byte count
+would be zero.
+
+fseek(fp, 0L, SEEK_SET);    //moves to beginning of file
+fseek(fp, 0L, SEEK_END);    //moves to end of file
+fseek(fp, -10L, SEEK_CUR);  //moves back 10 bytes
+
+The ftell function returns the current file position as a long integer. The value
+returned by ftell may be saved and later supplied to a call of fseek, making it
+possible to return to a previous file position.
+
+long file_pos;
+file_pos = ftell(fp); //save current position 
+fseek(fp, file_pos, SEEK_SET); //return to old position
+

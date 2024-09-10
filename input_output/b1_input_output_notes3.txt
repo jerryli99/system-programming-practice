@@ -1,0 +1,94 @@
+The ...printf functions
+
+int fprintf(FILE *restrict stream, const char *restrict format, ...);
+int printf(const char *restrict format, ...);
+
+The fprintf and printf functions write a variable number of data items to an 
+output stream, using a format string to control the appearance of the output.
+The prototypes for both functions end with the ... symbol, which indicates a 
+variable number of additional arguments. Both functions return the number of 
+characters written; a negative return value indicates that an error occured. 
+
+The only difference between them is that printf writes to stdout, and fprintf 
+writes to the stream indicated by its first argument, like stdout, stderr, fp, ...
+
+Both printf and fprintf require a format string containing ordinary characters 
+and/or conversion specifications. 
+
+i.e. [%][#0][12][.5][L][g]
+         ^   ^   ^   ^  ^--conversion specifier
+         |   |   |   |  
+         |   |   |   --length modifier
+         |   |   --precision
+         |   --minimum field width
+         --flags
+
+
+Detecting End-of-file and error conditions:
+
+void clearerr(FILE *stream);
+int feof(FILE *stream);
+int ferror(FILE *stream);
+
+If we ask a ...scanf function to read and store n data items, we expect its 
+return value to be n. If the return value is less than n, something went wrong.
+
+There are 3 possibilities:
+1. End-of-file. The function encountered end-of-file before matching the format
+string completely. 
+
+2. Read error. The function was unable to read characters from the stream.
+
+3. Matching failure. A data item was in the wrong format. For example, the 
+function might have enuntered a letter while searching for the first digit of
+an integer. 
+
+But how can we tell which kind of failure occurred? In many cases, it does not 
+matter, something went wrong, and we have got to abandon the program. There maybe
+times, however, when we will need to pinpoint the reason for the failure.
+
+Every stream has two indicators associated with it: an error indicator and an 
+end-of-file indicator. These indicators are cleared when the stream is opened.
+
+Once the error or end-of-file indicator is set, it remains in that state until 
+it is explicitly cleared, perhaps by a call of the clearerr function. clearerr 
+clears both the end-of-file and error indicators: 
+
+clearerr(fp);
+
+We can call the feof ferror functions to test a stream's indicators to determine
+why a prior operation on the stream failed. The call feof(fp) returns a nonzero
+value if the end-of-file indicator is set for the stream associated with fp.
+The call ferror(fp) returns a nonzero value if the error indicator is set. 
+Both functions return zero otherwise.
+
+int find_int(const char *filename)
+{
+    FILE *fp = fopen(filename, "r");
+    int n;
+
+    if (fp == NULL)
+    {
+        return -1; //cannot open file
+    }
+
+    while (fscanf(fp, "%d", &n) != 1)
+    {
+        if (ferror(fp))
+        {
+            fclose(fp);
+            return -2; //read error
+        }
+
+        if (feof(fp))
+        {
+            fclose(fp);
+            return -3; //integer not found
+        }
+        fscanf(fp, "%*[^\n]"); // skips rest of line
+    }
+
+    fclose(fp);
+    return n;
+}
+
