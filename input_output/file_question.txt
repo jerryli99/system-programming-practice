@@ -8,3 +8,13 @@ So once you reach the end of file, you must hit EOF.
 Q: When I read a text file and there are numbers in it, what will happen if
 I simply read it in "r" mode?
 
+
+Q: If file pointer is null, do I have to use fclose()? 
+
+Not only it is not necessary to use fclose() when f is NULL, but you should 
+actually not invoke fclose() when f is NULL.
+
+If f is NULL, then the file was never opened to begin with, so it does not need 
+any closing. Even if the file somehow needed closing, the solution could not 
+possibly involve passing NULL to fclose(), because a NULL parameter carries 
+absolutely no information that fclose() can use to figure out which file to close.

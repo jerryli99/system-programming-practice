@@ -127,4 +127,117 @@ screen (useful for password input, etc.). It doesn’t require pressing "Enter"
 to read the character.
 
 -------------------------------------------------------------------------------
-10. 
+10. see b1_input_output_ex10.c
+
+-------------------------------------------------------------------------------
+11. The following loop appears in the fcopy.c program:
+
+while ((ch = getc(source_fp)) != EOF)
+    putc(ch, dest_fp);
+
+Suppose that we neglected to put parentheses around ch = getc(source_fp):
+while (ch = getc(source_fp) != EOF)
+    putc(ch, dest_fp);
+
+Would the program compile without an error? IF so, what would the program do
+when it's run?
+
+Answer: 
+For the first while statement, it works fine with stdin and stdout. For the 
+second while statement, getc(source_fp) is comared to EOF using != first, then 
+the result fo the equality is then assigned to the variable ch. Operator 
+precedence is the issue here.
+
+------------------------------------------------------------------------------
+
+12. Find the error in the following function and show how to fix it.
+int count_periods(const char *filename) 
+{
+    FILE *fp;
+    int n = 0;
+    if ((fp = fopen(filename, "r")) != NULL) {
+        while (fgetc(fp) != EOF) {
+            if (fgetc(fp) == '.') {
+                n++;
+            }
+        }
+        fclose(fp);
+    }
+    return n;
+}
+
+Answer: 
+the result of fgetc(fp) is not assigned a variable to store the result.
+This error code will result in 2 calls to fgetc(fp) per while loop iteration.
+First call fgetc: checks for EOF.
+Second call fgetc: checks if the character is a period '.'
+This means every other character is skipped because fgetc(fp) moves the file
+pointer each time it is called.
+
+see b1_input_output_ex12.c and ex12_test.txt
+----------------------------------------------------------------------------
+
+13. Write the following function:
+int line_length(const char *filename, int n);
+
+The function should return the length of line n in the text file whose name is
+filename (assuming that the first line in the file is line 1.) If the line does
+not exist, the function should return 0.
+
+see b1_input_output_ex13.c and ex13_test.txt
+
+-----------------------------------------------------------------------------
+
+14. 
+(a) Write your own version of the fgets function. Make it behave as much like
+the real fgets function as possible; in particular, make sure that it has the 
+proper return value. To avoid conflicts with the standard library, don't name
+your function fgets.
+
+(b) Write your own version of fputs, same rule as (a).
+
+
+Answer: see b1_input_output_ex14.c and ex14_test.txt
+
+-----------------------------------------------------------------------------
+
+15. Write calls of fseek that perform the following file-positioning operations
+on a binary file whose data is arranged in 64-byte "records". Use fp as the file
+pointer in each case.
+
+(a) Move to the beginning of record n. (Assume that the first record in the file
+is record 0.)
+
+(b) Move to the beginning of the last record in the file.
+
+(c) Move forward one record.
+
+(d) Move backward two records.
+
+Answer: see b1_input_output_ex15.c
+
+------------------------------------------------------------------------------
+
+16. skipped.
+
+==============================================================================
+
+Projects
+
+1. skipped
+
+2. see b1_input_output_proj2.c and proj2_test.txt
+
+3-6. skipped
+
+7. 
+see b1_input_output_proj7_partA.c, b1_input_output_proj7_partB.c, 
+proj7_partA_test.txt, proj7_partA_test.txt.rle
+
+possibly skipped some problems...
+
+17. 
+
+18.
+
+19. 

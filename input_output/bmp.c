@@ -10,6 +10,8 @@ for (int i = 0; i < 4; i++) {
     printf("%p: %02x \n", pc, (unsigned char) *pc++);
 }
 */
+
+#if 0
 #include <stdio.h>
 #include <stdint.h>
 
@@ -132,3 +134,11 @@ int32_t read_bmp_int32(FILE *bmp_fp)
 
     return (value);
 }
+#endif
+
+//------------------------------------------------------------------------------
+//  Improved version
+//------------------------------------------------------------------------------
+
+
+
