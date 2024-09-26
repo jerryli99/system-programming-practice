@@ -234,10 +234,12 @@ Projects
 see b1_input_output_proj7_partA.c, b1_input_output_proj7_partB.c, 
 proj7_partA_test.txt, proj7_partA_test.txt.rle
 
-possibly skipped some problems...
+possibly skipped some problems...because too tedious...
 
-17. 
+16. see b1_input_output_proj16.c
 
-18.
+17. see b1_input_output_proj17.c
 
-19. 
+18. see b1_input_output_proj18.c
+
+19. see b1_input_output_proj19.c

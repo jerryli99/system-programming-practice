@@ -11,6 +11,91 @@ for (int i = 0; i < 4; i++) {
 }
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "bmp.h"
+
+BMP_IMAGE* read_bmp_image(const char *filename)
+{
+    FILE *img_fp = fopen(filename, "rb");
+    if (img_fp == NULL) {
+        fprintf(stderr, "Failed to open file: %s\n", filename);
+        return NULL;
+    }
+
+    BMP_IMAGE *bmp_img = malloc(sizeof(*bmp_img));
+    if (bmp_img == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        fclose(img_fp);
+        return NULL;
+    }
+
+    fread(&bmp_img->bmp_header, sizeof(BMP_HEADER), 1, img_fp);
+
+    if (bmp_img->bmp_header.type != BMP_FILE_TYPE) {
+        fprintf(stderr, "File is not a BMP file.\n");
+        free(bmp_img);
+        fclose(img_fp);
+        return NULL;
+    }
+
+    fread(&bmp_img->dib_header, sizeof(DIB_HEADER), 1, img_fp);
+
+    //move to the pixel data (image data position)
+    fseek(img_fp, bmp_img->bmp_header.pixel_array_offset, SEEK_SET);
+
+    bmp_img->image_data = malloc(bmp_img->dib_header.raw_bitmap_size);
+    if (bmp_img->image_data == NULL) {
+        fprintf(stderr, "Memory allocation failed for image data\n");
+        free(bmp_img);
+        fclose(img_fp);
+        return NULL;
+    }
+
+    //read image data in bytes
+    fread(bmp_img->image_data, 1, bmp_img->dib_header.raw_bitmap_size, img_fp);
+
+    fclose(img_fp);
+    return bmp_img;
+}
+
+void print_bmp_info(const BMP_IMAGE *image) {
+    printf("BMP File Information:\n");
+    printf("File Size: %u bytes\n", image->bmp_header.file_size);
+    printf("Bitmap Width: %u pixels\n", image->dib_header.bitmap_width);
+    printf("Bitmap Height: %u pixels\n", image->dib_header.bitmap_height);
+    printf("Bits Per Pixel: %u\n", image->dib_header.bits_per_pixel);
+    printf("Compression Method: %u\n", image->dib_header.compression_method);
+    printf("Raw Bitmap Size: %u bytes\n", image->dib_header.raw_bitmap_size);
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <bmp_filename>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    // Read BMP image from file
+    BMP_IMAGE *image = read_bmp_image(argv[1]);
+    if (!image) {
+        return EXIT_FAILURE;
+    }
+
+    // Print BMP image information
+    print_bmp_info(image);
+
+    // // Extract and print RGB values of the first pixel
+    // extract_rgb(image);
+
+    // Free allocated memory
+    free(image->image_data);
+    free(image);
+
+    return EXIT_SUCCESS;
+}
+
+
+//old code---------------------------------------------------------
 #if 0
 #include <stdio.h>
 #include <stdint.h>
