@@ -1,6 +1,6 @@
 # system-programming-practice
 
-My study order:
+My study order for book1 (C Programming A Modern Approach 2nd edition):
 
 1. ./pointers
 2. ./pointers_and_arrays
@@ -8,4 +8,8 @@ My study order:
 4. ./structs
 5. ./advance_pointers
 6. ./declarations
-7. 
+7. ./input_output
+8. ./preprocessors
+9. ./low_level_programming
+
+
