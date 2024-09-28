@@ -41,6 +41,7 @@ void free_bmp_image(BMP_IMAGE *image)
         }
         free(image);             // Free BMP_IMAGE structure
     }
+    return;
 }
 
 // Error handling for BMP read
@@ -52,6 +53,7 @@ void read_bmp_error(const char *message, FILE *img_fp, BMP_IMAGE *image)
         fclose(img_fp); // Ensure file is closed in case of error
     }
     free_bmp_image(image); // Free image memory
+    exit(EXIT_FAILURE);
 }
 
 // Read BMP image
@@ -61,14 +63,12 @@ BMP_IMAGE* read_bmp_image(const char *file_name)
     if (img_fp == NULL) 
     {
         read_bmp_error("Failed to open file", NULL, NULL); // File open failure
-        return NULL;
     }
 
     BMP_IMAGE *image = malloc(sizeof(BMP_IMAGE)); // Allocate memory for image
     if (image == NULL) 
     {
         read_bmp_error("Memory allocation failed", img_fp, NULL); // Allocation failure
-        return NULL;
     }
 
     // Read BMP header
@@ -76,21 +76,18 @@ BMP_IMAGE* read_bmp_image(const char *file_name)
         image->bmp_header.file_type != BMP_FILE_TYPE) 
     {
         read_bmp_error("Invalid BMP file", img_fp, image); // Header read failure
-        return NULL;
     }
 
     // Read DIB header
     if (fread(&image->dib_header, sizeof(DIB_HEADER), 1, img_fp) != 1) 
     {
         read_bmp_error("Failed to read DIB header", img_fp, image); // DIB header read failure
-        return NULL;
     }
 
     // Move file pointer to pixel data location
     if (fseek(img_fp, image->bmp_header.pixel_array_offset, SEEK_SET) != 0) 
     {
         read_bmp_error("Error seeking to pixel data", img_fp, image);
-        return NULL;
     }
 
     uint32_t bitmap_size = image->dib_header.raw_bitmap_size;
@@ -100,18 +97,16 @@ BMP_IMAGE* read_bmp_image(const char *file_name)
     if (image->data == NULL) 
     {
         read_bmp_error("Memory allocation failed for image data", img_fp, image);
-        return NULL;
     }
 
     // Read pixel data from file
     if (fread(image->data, 1, bitmap_size, img_fp) != bitmap_size) 
     {
         read_bmp_error("Failed to read pixel data", img_fp, image);
-        return NULL;
     }
 
     fclose(img_fp); // Close file after successful read
-    return image;   // Return BMP image struct
+    return (image);   // Return BMP image struct
 }
 
 // Print BMP information
@@ -133,7 +128,7 @@ void save_bmp_image(const char *file_name, BMP_IMAGE *image)
     if (img_fp == NULL) 
     {
         fprintf(stderr, "Failed to open file for writing: %s\n", file_name);
-        return;
+        exit(EXIT_FAILURE);
     }
 
     fwrite(&image->bmp_header, sizeof(BMP_HEADER), 1, img_fp);
@@ -141,6 +136,7 @@ void save_bmp_image(const char *file_name, BMP_IMAGE *image)
     fwrite(image->data, 1, image->dib_header.raw_bitmap_size, img_fp);
 
     fclose(img_fp);
+    return;
 }
 
 // Get a pixel from the image
@@ -213,17 +209,17 @@ void extract_rgb_layers(BMP_IMAGE *image, const char *file_name)
     snprintf(layer_names[1], sizeof(layer_names[1]), "%s_green.bmp", base_name);
     snprintf(layer_names[2], sizeof(layer_names[2]), "%s_blue.bmp", base_name);
 
-    for (int i = 0; i < RGB_COLOR_CHANNELS; ++i) 
+    for (int index = 0; index < RGB_COLOR_CHANNELS; index++) 
     {
-        if (layers[i] == NULL) 
+        if (layers[index] == NULL) 
         {
             fprintf(stderr, "Memory allocation failed for color layers.\n");
             return;
         }
 
-        memcpy(&layers[i]->bmp_header, &image->bmp_header, sizeof(BMP_HEADER));
-        memcpy(&layers[i]->dib_header, &image->dib_header, sizeof(DIB_HEADER));
-        layers[i]->data = calloc(image->dib_header.raw_bitmap_size, sizeof(uint8_t));
+        memcpy(&layers[index]->bmp_header, &image->bmp_header, sizeof(BMP_HEADER));
+        memcpy(&layers[index]->dib_header, &image->dib_header, sizeof(DIB_HEADER));
+        layers[index]->data = calloc(image->dib_header.raw_bitmap_size, sizeof(uint8_t));
     }
 
     for (uint32_t y = 0; y < height; y++) 
@@ -242,12 +238,12 @@ void extract_rgb_layers(BMP_IMAGE *image, const char *file_name)
         }
     }
 
-    for (int i = 0; i < RGB_COLOR_CHANNELS; i++) 
+    for (int index = 0; index < RGB_COLOR_CHANNELS; index++) 
     {
-        save_bmp_image(layer_names[i], layers[i]);
-        printf("Layer %d saved to %s\n", i, layer_names[i]);
-        free(layers[i]->data); 
-        free(layers[i]);       
+        save_bmp_image(layer_names[index], layers[index]);
+        printf("Layer %d saved to %s\n", index, layer_names[index]);
+        free(layers[index]->data); 
+        free(layers[index]);       
     }
 }
 
