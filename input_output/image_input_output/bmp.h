@@ -1,3 +1,6 @@
+#ifndef _BMP_H_
+#define _BMP_H_
+
 #include <stdio.h>
 #include "types.h"
 
@@ -66,3 +69,5 @@ RGB_PIXEL get_pixel(const BMP_IMAGE *image, uint32_t x, uint32_t y);
 void set_pixel(BMP_IMAGE *image, uint32_t x, uint32_t y, RGB_PIXEL pixel);
 void extract_rgb_layers(BMP_IMAGE *image, const char *file_name);
 void binarize_image(BMP_IMAGE *image, uint8_t threshold, const char *output_file);
+
+#endif
