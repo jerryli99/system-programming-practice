@@ -1,0 +1,165 @@
+Exercises:
+
+1. see b1_preprocessors_ex1.c
+
+2. see b1_preprocessors_ex2.c
+
+---------------------------------------------------------
+3. Let DOUBLE be the following macro:
+
+#define DOUBLE(x) 2*x
+
+(a) What is the value of DOUBLE(1+2)? 2*1+2 = 4
+(b) What is the value of 4/DOUBLE(2)? 4/2*2 = 4
+(c) Fix the definition of DOUBLE:
+    #define DOUBLE(x) (2*(x))
+
+Answer:
+(a) 2 * 1 + 2 = 4
+(b) 4 / 2 * 2 = 4
+(c) #define DOUBLE(x) (2*(x))
+
+-----------------------------------------------------------
+4. For each of the following macros, give an example that illustrates a proble with the macro
+and show how to fix it.
+
+(a) #define AVG(x,y) (x-y)/2
+Answer:
+AVG(1+1, 2+2);  preprocessor replacement: (1+1-2+2)/2. Evaluates to 1. Fix #define AVG(x,y) (((x)-(y))/2))
+
+(b) #define AREA(x,y) (x) * (y)
+Answer:
+sum = 5 / AREA(2,5);  preprocessor replacement: 5 / (2) * (5). Evalutes to 10
+Fix #define AREA(x,y) ((x) * (y)).
+
+-----------------------------------------------------------
+
+5. Let TOUPPER be the following macro:
+
+#define TOUPPER(c) ('a'<=(c)&&(c)<='z'?(c)-'a'+'A':(c))
+
+Let s be a string and let i be an int variable. Show the output produced by 
+each of the following program fragments:
+
+(a) strcpy(s, "abcd");
+    i = 0;
+    putchar(TOUPPER(s[++i]));
+
+(b) strcpy(s, "0123");
+    i = 0;
+    putchar(TOUPPER(s[++i]));
+
+Answer: 
+(a) result is 'd'
+(b) result is '2'
+
+------------------------------------------------------------------------
+
+6. see b1_preprocessors_ex6.c
+------------------------------------------------------------------------
+
+7. Let GENERIC_MAX be the following macro:
+
+#define GENERIC_MAX(type)       \
+type type##_max(type x, type y) \
+{                               \
+    return x > y ? x : y;       \
+}   
+
+(a) Show the preprocessor's expansion of GENERIC_MAX(long).
+(b) Explain why GENERIC_MAX doesn't work for basic types such as unsigned long.
+(c) Describe a technique that would allow us to use GENERIC_MAX with basic 
+types such as unsigned long.
+
+Answer: 
+(a)    
+long long_max(long x, long y)
+{
+    return x > y ? x : y;
+}
+
+(b) 
+because "unsigned long" has a space, so it does not work for the ## operator.
+
+(c)
+typedef unsigned long ulong;
+
+-----------------------------------------------------------------------------
+
+8. see b1_preprocessors_ex8.c
+
+9. see b1_preprocessors_ex9.c
+
+10. skipped
+
+11. see b1_preprocessors_ex11.c
+-----------------------------------------------------------------------------
+
+12. Suppose that the macro M has been defined as follows:
+#define M 10
+Which of the following tests will fail?
+(a) #if M
+(b) #ifdef M
+(c) #ifndef M
+(d) #if defined(M)
+(e) #if !defined(M)
+
+Answer: c and e
+
+-----------------------------------------------------------------------------
+
+13. 
+(a) Show what the following program will look like after preprocessing. You may ignore
+    any lines added to the program as a result of including the <stdio.h> header.
+
+    #include <stdio.h>
+
+    #define N 100
+
+    void f(void);
+
+    int main(void)
+    {
+        f();
+    #ifdef N
+    #undef N
+    #endif
+        return 0;
+    }
+
+    void f(void)
+    {
+    #if define(N)
+        printf("N is %d\n", N);
+    #else
+        printf("N is undefined\n");
+    #endif
+    }
+
+(b) What will be the output of this program?
+
+Answer:
+(a)
+void f(void);
+
+int main(void)
+{
+    f();
+    return 0;
+}
+
+void f(void)
+{
+    printf("N is undefined\n");
+}
+
+(b)
+N is undefiend
+
+--------------------------------------------------------------------------
+
+14. skipped
+
+15. see b1_preprocessors_ex15.c
+
+16. skipped

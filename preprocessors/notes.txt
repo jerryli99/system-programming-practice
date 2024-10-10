@@ -1,0 +1,244 @@
+C program --> preprocessor --> modified C program --> compiler --> object code.
+
+The directives are:
+#define, #undef, #include, #if, #ifdef, #ifndef, #elif, #else, #endif
+
+special directives: #error, #line, #pragma.
+
+i.e.
+
+#define DISK_CAPACITY (SIDES *             \
+                       TRACKS_PER_SIDE *   \
+                       SECTORS_PER_TRACK * \
+                       BYTES_PER_SECTOR)
+
+
+advantages of using #define to create names for constants:
+1. it makes programs easier to read
+2. it makes programs easier to modify
+3. it helps avoid inconsistencies and typographical errors
+4. making minor changes to the syntax of C
+5. renaming types
+6. controlling conditional compilation
+
+Parameterized methods:
+The definition of a parameterized macro 
+#define identifier (x1, x2, ..., xn) replacement-list
+where x1, x2, ..., xn are identifiers. The parameters may appear as many times
+as desired in the replacement list.
+
+But,...
+arguments in the macro are not type-checked. It is not possible to have a pointer
+to a macro. A macro may evaluate its arguments more than once. 
+
+#define PRINT_INT(n) printf("%d\n", n)
+
+PRINT_INT(1/2);
+
+The # Operator:
+Macro definitions may contain two special operators: # and ##.
+
+Neither operator is recongnized by the compiler; instead, they are executed 
+during preprocessing. 
+
+The # operator converts a macro argument into a string literal; it can appear
+only in the replacement list of a parameterized macro. 
+
+Suppose we want to use the PRINT_INT macro during debugging as a convenient way
+to print the values of integer variables and expressions. The # operator makes it
+possible for PRINT_INT to label each value that it prints.
+
+For example:
+#define PRINT_INT(n) printf(#n " = %d\n", n)
+
+The # operator oin front of n instructs the preprocessor to create a string 
+literal from PRINT_INT's argument. Thus, the invocation
+
+PRINT_INT(i/j); will become printf("i/j" " = %d\n", i/j);
+
+which is equivalent to printf("i/j = %d\n", i/j); (the compiler automatically
+joins adjacent string literals)
+
+The weirder part:
+The ## operator/?? what?
+The ## operator can "paste" two tokens together to forms a single token.
+
+If one of the operands is a macro parameter, pasting occurs after the parameter
+has been replaced by the corresponding argument. Consider the following macro:
+
+#define MK_ID(n) i##n
+
+When MK_ID is invoked, say MK_ID(1), the preprocessor first replaces the
+parameter n by the argument (1). Next, the preprocessor joins i and 1 to make a 
+single token (i1). The following declaration uses MK_ID to create three 
+identifiers:
+
+int MK_ID(1), MK_ID(2), MK_ID(3);
+
+after preprocessing....
+
+int i1, i2, i3; //wow
+
+when we need it? Uhmm..
+Say we want MAX macro, but guess what, the arguments could be float type, int 
+type, etc. You don't want to see the same MAX macros. That is kind of awkward.
+
+We do:
+#define GENERIC_MAX(type)      \
+type type##_max(type x, type y)\
+{                              \
+    return x > y ? x : y;      \     
+}                              \
+
+
+type is joined with _max.
+
+define the function GENERIC_MAX(float) will expand to--> 
+float float_max(float x, float y) { return x > y ? x : y;}
+
+Creating longer macros:
+
+The comma operator can be useful for creating more sophisticaed macros by 
+allowing us to make the replacement list a series of expressions. For example,
+the following macro will read a string and then print it.
+
+#define ECHO(s) (gets(s), puts(s))
+
+calls off gets and puts are expressions, so it is perfectly legal to combine them
+using the comma operator. We can invoke ECHO as though it were a function
+
+We could also do
+#define ECHO(s) { gets(s); puts(s); }
+
+but this is bad. 
+
+if (echo_flag) 
+    ECHO(str);
+else
+    gets(str);
+
+will be 
+
+if (echo_flag) 
+    {gets(str); puts(str); };_--> remove this semicolon
+else 
+    gets(str);
+
+apparently, this is wrong, and we can fix it by removing the semicolon. It looks
+odd though.
+
+The comma operator solves this problem for ECHO, but not for all macros.
+Suppose that a macro needs to contain a series of statements, not just a series
+of expressions. The comma operator is of no help; it can glue together expressions,
+but not statements. Solution? use do {...}while(0)
+
+so,
+
+#define ECHO(s) \
+      do {      \
+        gets(s);\
+        puts(s);\
+      } while(0)
+
+The we get 
+
+ECHO(str);
+
+
+printf("ABC Software (c) 2024 ABC Software, Inc.\n");
+printf("Compiled on %s at %s\n", __DATE__, __TIME__);
+
+
+==============================================================================
+The #if and #endif Directives:
+
+Suppose we are in the process of debugging a program. We'd like the program to 
+print the values of certain variables, so we put calls of printf in critical 
+parts of the program. Once we have located the bugs, it is often a good idea to 
+let the printf calls remain, just in case we need them later. Conditional 
+compilation allows us to leave the calls in place, but have the compiler ignore
+them.
+
+First, define a macro and give it a nonzero value:
+#define DEBUG 1
+
+The name of the macro does not matter. Next, we will surround each group of 
+printf calls by #if-#endif pair:
+
+#if DEBUG 
+printf("Value of i: %d\n", i);
+printf("Value of j: %d\n", j);
+#endif
+
+==========
+If you don't want to give DEBUG a value, you can do:
+
+#define DEBUG
+
+#if defined(DEBUG)
+...
+#endif
+
+==========
+
+Not only for debugging, conditional compilation can be used for writing 
+programs that are portable to several machines or operating systems. 
+
+#if defined(WIN32)
+...
+#elif defined(MAC_OS)
+...
+#elif defined(LINUX)
+...
+#endif
+
+Writing programs that can be compiled with different compilers. Different 
+compilers often recognize somewhat different versions of C. Some accept a standard
+version of C, some don't. Conditional compilation can allow a program to adjust
+to different compilers. 
+
+Considerhe problem of of writing a program that might have to be compiled using 
+an older, nonstandard compiler. The __STDC__ macro allows the preprocessor to
+detect whether a compiler conforms to the standard (either C89 or C99); if it
+does not, we may need to change certain aspects of the program. In particular, 
+we may hae to use old-style function declarations instead of function 
+prototypes. At each point where functions are declared we can put the following
+lines:
+
+#if __STDC__
+function prototypes....
+#else
+old-style function declarations
+#endif
+
+providing a default definition for a macro:
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 256
+#endif
+
+=============================================================
+The #error directive:
+
+#if INT_MAX < 100000
+#error int type is too small
+#endif
+
+#if defined(WIN32)
+...
+#elif defined(MAC_OS)
+...
+#elif defined(LINUX)
+...
+#else 
+#error No operating system specified
+#endif
+
+The #pragma directive:
+provides a way to request special behavior from the compiler.
+This is most useful for programs that are unusually large or that 
+need to take advantage of the capabilities of a particular compiler.
+
+for example:
+
+#pragma data(heap_size => 1000, stack_size => 2000)
+
