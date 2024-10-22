@@ -70,3 +70,12 @@ int main(void)
 
     return (0);
 }
+
+/*
+output:
+Value: 0x12345678
+AX (low): 0x5678, AX (high): 0x1234, EAX: 0x12345678
+AX (low): 0x0010, AX (high): 0x1234, EAX: 0x12340010
+AXL (low byte): 0x10, AXL (high byte): 0x00, AXH (low byte): 0x34, AXH (high byte): 0x12
+
+*/
