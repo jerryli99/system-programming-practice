@@ -1,3 +1,64 @@
 Exercises
 
 1. see b1_low_level_programming_ex1.c
+
+2. see b1_low_level_programming_ex2.c
+
+-----------------------------------------------------------
+
+3. Explain what effect the following macro has on its arguments. You may assume
+that the arguments have the same type.
+
+#define M(x,y) ((x)^=(y), (y)^=(x), (x)^=(y))
+
+Answer:
+The macro is doing variable swaps.
+
+First, x ^= y.
+We store the (x_original ^ y_original) in x_new. The value 
+y_original after xor is unchanged.
+
+Second, y ^= x. 
+We store (y_original ^ (x_original ^ y_original)) in y_new. 
+The value x_new still holds (x_original ^ y_original) from previous. 
+So, y_new = (y_original ^ (x_original ^ y_original)) = x_original.
+
+Third, x ^= y. 
+(x_new ^ y_new) 
+= (x_original ^ y_original) ^ (y_original ^ (x_original ^ y_original))
+= (x_original ^ y_original) ^ x_original
+= y_original
+
+say in binary 
+x = 0101, y = 0011
+
+x ^= y => x = 0101 ^ 0011 = 0110
+y ^= x => y = 0011 ^ 0110 = 0101
+x ^= y => x = 0110 ^ 0101 = 0011
+
+-----------------------------------------------------------------------
+
+4 and 5. see b1_low_level_programming_ex4_5.c
+
+6. see b1_low_level_programming_ex6.c
+
+7. see b1_low_level_programming_ex7.c
+
+8. see b1_low_level_programming_ex8.c
+
+9. see b1_low_level_programming_ex9.c
+
+10. see b1_low_level_programming_ex10.c
+
+11. see b1_low_level_programming_ex11.c
+
+12. skipped
+
+13. skipped
+
+14. see b1_low_level_programming_ex14.c
+
+15. skipped
+
+16. see b1_low_level_programming_ex16.c
+
