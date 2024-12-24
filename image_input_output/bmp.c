@@ -121,7 +121,8 @@ void print_bmp_info(const BMP_IMAGE *image)
     printf("Raw Bitmap Size: %u bytes\n", image->dib_header.raw_bitmap_size);
 }
 
-// Save BMP image
+// Save BMP image, well, not perfect code here, I just assume that the metadata 
+// remains the same
 void save_bmp_image(const char *file_name, BMP_IMAGE *image) 
 {
     FILE *img_fp = fopen(file_name, "wb");
