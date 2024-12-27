@@ -51,7 +51,7 @@ typedef struct bmp_image
 
 #pragma pack(pop)
 
-typedef struct {
+typedef struct rgb_pixel {
     uint8_t r;
     uint8_t g;
     uint8_t b;

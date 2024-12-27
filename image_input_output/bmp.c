@@ -39,7 +39,7 @@ void free_bmp_image(BMP_IMAGE *image)
         {
             free(image->data); // Free pixel data
         }
-        free(image);             // Free BMP_IMAGE structure
+        free(image); // Free BMP_IMAGE structure
     }
     return;
 }

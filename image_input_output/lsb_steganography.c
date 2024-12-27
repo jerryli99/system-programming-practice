@@ -23,14 +23,14 @@ old.
 */
 
 /**
-    @brief Embed data into an image
-
-    @param image BMP_IMAGE pointer
-    @param data  a constant uint8_t pointer
-    @param output_file a constant char pointer
-
-    @return returns true if embeding is success, and false otherwise.
-*/
+ * @brief Embed data into an image
+ *
+ * @param image BMP_IMAGE pointer
+ * @param data  a constant uint8_t pointer
+ * @param output_file a constant char pointer
+ *
+ * @return returns true if embeding is success, and false otherwise.
+ */
 bool lsb_embed_data(BMP_IMAGE *image, 
                     const uint8_t *data, 
                     size_t data_size, 
@@ -38,7 +38,7 @@ bool lsb_embed_data(BMP_IMAGE *image,
 {
     uint32_t width = image->dib_header.bitmap_width;
     uint32_t height = image->dib_header.bitmap_height;
-    
+
     // Maximum bytes available for embedding
     size_t pixel_capacity = (width * height * 3) / 8;
 
@@ -52,11 +52,11 @@ bool lsb_embed_data(BMP_IMAGE *image,
     size_t data_index = 0;
     uint8_t bit_mask = 1; // To extract individual bits
 
-    for (uint32_t y = 0; y < height && data_index < data_size; y++) 
+    for (uint32_t y_pos = 0; y_pos < height && data_index < data_size; y_pos++) 
     {
-        for (uint32_t x = 0; x < width && data_index < data_size; x++) 
+        for (uint32_t x_pos = 0; x_pos < width && data_index < data_size; x_pos++) 
         {
-            RGB_PIXEL pixel = get_pixel(image, x, y);
+            RGB_PIXEL pixel = get_pixel(image, x_pos, y_pos);
 
             for (int channel = 0; channel < 3; channel++) 
             {
@@ -67,15 +67,15 @@ bool lsb_embed_data(BMP_IMAGE *image,
                 uint8_t current_bit = (data[data_index] & bit_mask) ? 1 : 0;
                 *color_channel = (*color_channel & ~1) | current_bit;
 
-                bit_mask <<= 1;
+                bit_mask <<= 1; // it will go 001, 010, 100 after each loop
                 if (bit_mask == 0) 
                 {
-                    bit_mask = 1; // Reset bit mask
+                    bit_mask = 1; //reset bit mask
                     data_index++;
                 }
             } //end of RGB channel loop
 
-            set_pixel(image, x, y, pixel);
+            set_pixel(image, x_pos, y_pos, pixel);
         }
     }
 
@@ -85,14 +85,24 @@ bool lsb_embed_data(BMP_IMAGE *image,
 }
 
 
-//extract data from image
+/**
+ * @brief extract text data from image
+ * 
+ * @param image BMP_IMAGE pointer type
+ * @param data  uint8_t pointer type
+ * @param data_size size_t 
+ * 
+ * @return true if extracted data correctly, and false if data size mismatch the 
+ *         capacity of the image to hide bits.
+ */
 bool lsb_extract_data(const BMP_IMAGE *image, 
                       uint8_t *data, 
                       size_t data_size) 
 {
     uint32_t width = image->dib_header.bitmap_width;
     uint32_t height = image->dib_header.bitmap_height;
-    // Maximum bytes available for extraction
+
+    //the maximum bytes available for extraction
     size_t pixel_capacity = (width * height * 3) / 8;
 
     if (data_size > pixel_capacity) 
@@ -106,16 +116,16 @@ bool lsb_extract_data(const BMP_IMAGE *image,
     uint8_t bit_mask = 1;
     data[data_index] = 0;
 
-    for (uint32_t y = 0; y < height && data_index < data_size; y++) 
+    for (uint32_t y_pos = 0; y_pos < height && data_index < data_size; y_pos++) 
     {
-        for (uint32_t x = 0; x < width && data_index < data_size; x++) 
+        for (uint32_t x_pos = 0; x_pos < width && data_index < data_size; x_pos++) 
         {
-            RGB_PIXEL pixel = get_pixel(image, x, y);
+            RGB_PIXEL pixel = get_pixel(image, x_pos, y_pos);
 
             uint8_t channels[3] = { pixel.r, pixel.g, pixel.b };
             for (int channel = 0; channel < 3; channel++) 
             {
-                // Extract the LSB of the current channel
+                //extract the LSB of the current channel
                 uint8_t lsb = channels[channel] & 1;
                 if (lsb == 1) 
                 {
@@ -125,7 +135,7 @@ bool lsb_extract_data(const BMP_IMAGE *image,
                 bit_mask <<= 1;
                 if (bit_mask == 0) 
                 {
-                    bit_mask = 1; // Reset bit mask
+                    bit_mask = 1; //reset bit mask
                     data_index++;
                     if (data_index < data_size) 
                     {
