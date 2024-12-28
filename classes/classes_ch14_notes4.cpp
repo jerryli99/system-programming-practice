@@ -60,3 +60,80 @@ calling member functions that set the value of member variables.
 //     return (0);
 // }
 
+
+/*
+
+Even though print() does not try to modify a member vriable, our call to today.print()
+is still a const violation. This happens because the print() member function itself
+not declared as const. The compiler won't let us call a non-const member function
+on a const object.
+
+Const member functions
+To address the above issue, we need to make print() a const member function.
+A const member function is a member function that guarantees it will not modify
+the object or call any non-const member functions (as they may modify the object).
+
+Making print() a const member functio is easy -- we simply append the const keyword
+to the function prototype, after the parameter list, but before the function body.
+
+*/
+
+// #include <iostream>
+
+// struct Date
+// {
+//     int year {};
+//     int month {};
+//     int day {};
+
+//     void print() const 
+//     {
+//         std::cout << year << '/' << month << '/' << day;
+//     }
+// };
+
+// int main()
+// {
+//     const Date today {2020, 10, 14};
+//     today.print();
+
+//     return 0;
+// }
+
+
+/*
+OK, so we have a const class type, so we need a const member function. 
+What if we need to modify values in the member function?
+*/
+
+// struct Date
+// {
+//     int year {};
+//     int month {};
+//     int day {};
+
+//     void incrementDay() const 
+//     {
+//         ++day; // already error here after typing out the code, compiler error
+//     }
+// }
+
+/*
+Because const member functions can be called on both const and non-const object,
+if a member function does not modify the state of the object, it should be made const.
+
+Best practice:
+A member function that does not modify the state of the object should be made const,
+so that it can be called on both const and non-const objects.
+
+Be careful about what member functions you apply const to. Once a member function
+is made const, that function can be called on const objects. Later removal of const
+on a member function will break any code that calls that member function on a const
+object. 
+
+
+
+*/
+
+
+

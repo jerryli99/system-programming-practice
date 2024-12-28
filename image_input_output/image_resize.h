@@ -7,10 +7,5 @@
 BMP_IMAGE* resize_nearest_neighbor(BMP_IMAGE *image, 
                                    uint32_t new_width, 
                                    uint32_t new_height);
-
-
-
 //other resize methods here...
-
-
 #endif

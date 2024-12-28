@@ -16,3 +16,26 @@ static void modify_var_in_file2_1()
 {
     global_var += 40;
 }
+
+// int strlen(const char *str)
+// {
+//    const char *tmp = str;
+//    int len = 0;
+//    while (*tmp != '\0')
+//    {
+//         ++len;
+//         ++tmp;
+//    }
+//    return len;
+// }
+
+// int strcmp(const char *str1, const char *str2)
+// {
+//     while (*str1 && (*str1 == *str2))
+//     {
+//         str1++;
+//         str2++;
+//     }
+
+//     return *(unsigned char *)str1 - *(unsigned char *)str2;
+// }
