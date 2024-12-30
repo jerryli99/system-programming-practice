@@ -46,18 +46,18 @@ BMP_IMAGE* resize_nearest_neighbor(BMP_IMAGE *image,
     }
 
     //scaling factors
-    double x_ratio = (double)old_width / new_width;
-    double y_ratio = (double)old_height / new_height;
+    double x_ratio = (double)(old_width / new_width);
+    double y_ratio = (double)(old_height / new_height);
 
-    for (uint32_t y = 0; y < new_height; y++) 
+    for (uint32_t y_pos = 0; y_pos < new_height; y_pos++) 
     {
-        for (uint32_t x = 0; x < new_width; x++) 
+        for (uint32_t x_pos = 0; x_pos < new_width; x_pos++) 
         {
-            uint32_t src_x = (uint32_t)(x * x_ratio);
-            uint32_t src_y = (uint32_t)(y * y_ratio);
+            uint32_t src_x = (uint32_t)(x_pos * x_ratio);
+            uint32_t src_y = (uint32_t)(y_pos * y_ratio);
 
             RGB_PIXEL pixel = get_pixel(image, src_x, src_y);
-            set_pixel(resized_image, x, y, pixel);
+            set_pixel(resized_image, x_pos, y_pos, pixel);
         }
     }
 

@@ -73,7 +73,9 @@ void sobel_edge_detection(BMP_IMAGE *image, const char *output_file)
                 for (int dx = -1; dx <= 1; dx++) 
                 {
                     RGB_PIXEL pixel = get_pixel(image, x_pos + dx, y_pos + dy);
-                    uint8_t gray = (uint8_t)(0.299 * pixel.r + 0.587 * pixel.g + 0.114 * pixel.b);
+                    uint8_t gray = (uint8_t)(0.299 * pixel.r + 
+                                             0.587 * pixel.g + 
+                                             0.114 * pixel.b);
 
                     gx += gray * sobel_x[dy + 1][dx + 1];
                     gy += gray * sobel_y[dy + 1][dx + 1];
