@@ -16,9 +16,12 @@ What image feature can you think of that have this kind of property?
 
 Edges. I just learned some edge detection math, it was interesting.
 
-So we can use a bunch of jungle animal pictures, such as a Panda staring at you 
-with a bamboo in the mouth while hanging out on some random tree that is 100 years
-old. 
+But using simple edge detections such as roberts and sobels might give us fewer
+places to store the bits, so how about we do gaussian blue to increase some pixels
+around the edge to store some more data?
+
+Sharp edges are high-contrast regions where modifications are more noticeable. 
+Blurring these edges diffuses the contrast, making the embedded information less detectable.
 
 */
 

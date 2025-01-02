@@ -11,9 +11,11 @@ My study order for book1 (C Programming A Modern Approach 2nd edition):
 7. ./input_output
 8. ./preprocessors
 9. ./low_level_programming
+
+Extra:
+
 10. ./image_input_output
-11. ./ftp
-12. ./simple_neural_network
+11. ./simple_neural_network
 
 
 
