@@ -15,7 +15,8 @@ My study order for book1 (C Programming A Modern Approach 2nd edition):
 Extra:
 
 10. ./image_input_output
-11. ./simple_neural_network
+11. ./audio_intput_output
+12. ./simple_neural_network
 
 
 
