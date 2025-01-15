@@ -13,6 +13,7 @@ import ghidra.app.services.CodeViewerService;
 import ghidra.program.flatapi.FlatProgramAPI;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.Program;
+import ghidra.program.model.address.Address;
 import ghidra.program.util.ProgramLocation;
 import java.net.URI;
 import java.net.http.*;
@@ -40,6 +41,10 @@ public class GhidraGPT extends GhidraScript {
         //send the decompiled code to GPT-4 API for summarization
         String summaryResponse = getSummaryFromGPT(decompiledCode);
         println(summaryResponse);
+
+
+        // Insert comments in the code
+        // insertComments(summaryResponse);
     }
 
     /**
@@ -134,3 +139,23 @@ public class GhidraGPT extends GhidraScript {
 
 //feel free to add json libraries or OpenAI libraries and then do stuff you want
 //below.....
+//e.g. after you extracted the json fields, you can try this one: (add the summary as comments)
+private void insertComments(String commentText) {
+    ProgramLocation progLoc = m_cvs.getCurrentLocation();
+    Program prog = progLoc.getProgram();
+    FlatProgramAPI programApi = new FlatProgramAPI(prog);
+
+    // Get the address of the current function
+    Address funcAddress = progLoc.getAddress();
+    Function func = programApi.getFunctionContaining(funcAddress);
+
+    if (func != null) {
+        Address entryPoint = func.getEntryPoint();
+
+        // Add a plate comment at the function entry point
+        programApi.setPlateComment(entryPoint, "GPT Summary: " + commentText);
+        println("Comment added at the function entry point.");
+    } else {
+        println("No function found to add comments.");
+    }
+}
